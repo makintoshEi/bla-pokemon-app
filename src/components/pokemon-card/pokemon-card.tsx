@@ -1,6 +1,7 @@
 import "./pokemon-card.css";
-import { Pokemon } from "@/interfaces/pokemon";
+import { PokemonDetails } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
 interface PokemonCardProps {
   index: number;
@@ -17,7 +18,7 @@ export const PokemonCard = ({
   url,
   onClick,
 }: PokemonCardProps) => {
-  const { data: pokemon, isLoading } = useQuery<Pokemon>({
+  const { data: pokemon, isLoading } = useQuery<PokemonDetails>({
     queryKey: ["pokemon", name],
     queryFn: async () => {
       const response = await fetch(url);
@@ -36,18 +37,20 @@ export const PokemonCard = ({
     <div
       className="pokemon-card"
       onClick={onClick}
-      tabIndex={0}
       role="button"
-      aria-label={`${name}. Pokemon ${index} of ${total}`}
+      aria-atomic="true"
     >
-      <span>{name}</span>
-      <div className="flex justify-center">
-        <img
-          src={pokemon?.sprites?.front_default || "/placeholder.svg"}
-          alt={name}
-          className="pokemon-card__image w-32 h-32"
-        />
-      </div>
+      <span tabIndex={0} aria-label={`${name}. Pokemon ${index} of ${total}.`}>
+        {name}
+      </span>
+      <Image
+        tabIndex={0}
+        aria-label={`Image of ${name} pokemon.`}
+        src={pokemon?.sprites.front_default || "/placeholder.svg"}
+        alt={name}
+        width={80}
+        height={80}
+      />
     </div>
   );
 };
