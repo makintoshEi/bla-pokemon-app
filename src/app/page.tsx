@@ -1,6 +1,6 @@
 // import Image from "next/image";
 "use client";
-import { Login } from "../components/login/login";
+import { Login } from "@/components/login/login";
 
 export default function Home() {
   return (

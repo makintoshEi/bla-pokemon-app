@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import "./login.css";
@@ -12,23 +12,18 @@ const usernameInitialValues: User = {
 export const Login = () => {
   const [user, setUser] = useState<User>(usernameInitialValues);
   const [error, setError] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage<boolean>(
-    "isLoggedIn",
-    false
-  );
+  const { setStorageValue } = useLocalStorage<boolean>("isLoggedIn", false);
   const router = useRouter();
 
-  console.log(isLoggedIn);
-
-  const handleUser = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (user.username === "admin" && user.password === "admin") {
-      setIsLoggedIn(true);
-      router.push("/main");
+      setStorageValue(true);
+      router.push("/pokemon-main");
     } else {
       setError("Invalid credentials");
     }
