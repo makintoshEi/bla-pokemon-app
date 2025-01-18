@@ -3,9 +3,10 @@ import { useState } from "react";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
+  placeholder: string;
 }
 
-export const SearchBar = ({ onSearch }: SearchBarProps) => {
+export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
   const [search, setSearch] = useState("");
 
   const handleSearch = (query: string) => {
@@ -17,12 +18,12 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
     <div className="search">
       <input
         type="text"
-        placeholder="Search Pokemon"
+        placeholder={placeholder}
         value={search}
         onChange={(e) => handleSearch(e.target.value)}
         className="search-input"
-        aria-label="Search Pokemon"
+        aria-label={placeholder}
       />
     </div>
   );
-};
+}

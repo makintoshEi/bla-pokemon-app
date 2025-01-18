@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { PokemonList } from "../pokemon-list/pokemon-list";
 import { Pokemon } from "@/interfaces/pokemon";
-import { SearchBar } from "../search-bar/search-bar";
+import PokemonSearchBar from "../search-bar/search-bar";
 import { Layout } from "./layout";
 
 export const Main = () => {
@@ -59,7 +59,7 @@ export const Main = () => {
 
   return (
     <Layout>
-      <SearchBar onSearch={handleSearch} />
+      <PokemonSearchBar onSearch={handleSearch} placeholder="Search pokemon" />
       <PokemonList
         pokemons={filteredPokemons}
         onSelectPokemon={handleSelectedPokemon}

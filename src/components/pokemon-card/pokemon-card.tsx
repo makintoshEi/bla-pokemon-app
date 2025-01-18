@@ -26,12 +26,13 @@ export const PokemonCard = ({
     },
   });
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div className="pokemon-card">
+      <div className="pokemon-card__loading">
         <span>Loading...</span>
       </div>
     );
+  }
 
   return (
     <div
@@ -46,7 +47,7 @@ export const PokemonCard = ({
       <Image
         tabIndex={0}
         aria-label={`Image of ${name} pokemon.`}
-        src={pokemon?.sprites.front_default || "/placeholder.svg"}
+        src={pokemon?.sprites.front_default || "/placeholder.webp"}
         alt={name}
         width={80}
         height={80}

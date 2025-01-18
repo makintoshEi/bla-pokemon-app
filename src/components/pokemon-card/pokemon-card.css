@@ -11,6 +11,12 @@
     overflow: hidden;
 }
 
+.pokemon-card__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .pokemon-card:hover,
 .pokemon-card:focus {
     transform: translateY(-5px);
