@@ -12,7 +12,7 @@ const usernameInitialValues: User = {
 export const Login = () => {
   const [user, setUser] = useState<User>(usernameInitialValues);
   const [error, setError] = useState("");
-  const { setStorageValue } = useLocalStorage<boolean>("isLoggedIn", false);
+  const [, setIsLoggedIn] = useLocalStorage<boolean>("isLoggedIn", false);
   const router = useRouter();
 
   const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +22,7 @@ export const Login = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (user.username === "admin" && user.password === "admin") {
-      setStorageValue(true);
+      setIsLoggedIn(true);
       router.push("/pokemon-main");
     } else {
       setError("Invalid credentials");

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
-type UseLocalStorageType<K> = {
-    storedValue: K,
-    setStorageValue: (value: K) => void
-}
+type UseLocalStorageType<K> = [
+    K,
+    (value: K) => void
+]
+
 export function useLocalStorage<T>(key: string, initialValue: T): UseLocalStorageType<T> {
     const [storedValue, setStoredValue] = useState<T>(() => {
         if (typeof window === "undefined") {
@@ -30,6 +31,6 @@ export function useLocalStorage<T>(key: string, initialValue: T): UseLocalStorag
         }
     }
 
-    return { storedValue, setStorageValue }
+    return [storedValue, setStorageValue]
 }
 
