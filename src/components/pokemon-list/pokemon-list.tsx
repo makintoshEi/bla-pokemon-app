@@ -4,10 +4,13 @@ import { PokemonCard } from "@/components/pokemon-card/pokemon-card";
 
 type PokemonListProps = {
   pokemons: Pokemon[] | undefined;
-  selectPokemon: (value: string | null) => void;
+  onSelectPokemon: (value: string | null) => void;
 };
 
-export const PokemonList = ({ pokemons, selectPokemon }: PokemonListProps) => (
+export const PokemonList = ({
+  pokemons,
+  onSelectPokemon,
+}: PokemonListProps) => (
   <div className="pokemon-list">
     {pokemons?.map((pokemon, index, array) => (
       <PokemonCard
@@ -16,7 +19,7 @@ export const PokemonList = ({ pokemons, selectPokemon }: PokemonListProps) => (
         name={pokemon.name}
         total={array.length}
         url={pokemon.url}
-        onClick={() => selectPokemon(pokemon.name)}
+        onClick={() => onSelectPokemon(pokemon.name)}
       />
     ))}
   </div>

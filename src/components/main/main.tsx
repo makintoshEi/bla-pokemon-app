@@ -62,7 +62,7 @@ export const Main = () => {
       <SearchBar onSearch={handleSearch} />
       <PokemonList
         pokemons={filteredPokemons}
-        selectPokemon={handleSelectedPokemon}
+        onSelectPokemon={handleSelectedPokemon}
       />
       {selectedPokemon ? <div>{selectedPokemon}</div> : null}
     </Layout>
