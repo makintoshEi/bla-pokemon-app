@@ -1,5 +1,5 @@
 import "./main.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { PokemonList } from "../pokemon-list/pokemon-list";
 import { Pokemon } from "@/interfaces/pokemon";
@@ -25,8 +25,12 @@ export const Main = () => {
     },
   });
 
-  const filteredPokemons = pokemonList?.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPokemons = useMemo(
+    () =>
+      pokemonList?.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [pokemonList, searchQuery]
   );
 
   const handleSearch = (query: string) => {
