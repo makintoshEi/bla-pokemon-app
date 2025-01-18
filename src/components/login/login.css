@@ -1,0 +1,22 @@
+.login__card {
+    max-width: 400px;
+    width: 100%;
+}
+
+.login__form-group {
+    margin-bottom: 1rem;
+}
+
+.login__label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.login__input {
+    width: 100%;
+}
+
+.login__error {
+    color: red;
+    margin-top: 0.5rem;
+}

@@ -1,0 +1,31 @@
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { Login } from "../components/login/login";
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
+describe("Login", () => {
+  it("renders login form", () => {
+    render(<Login />);
+    expect(screen.getByText("Pokemon App")).toBeInTheDocument();
+    expect(screen.getByLabelText("Username")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Login" })).toBeInTheDocument();
+  });
+
+  it("shows error message for invalid credentials", () => {
+    render(<Login />);
+    fireEvent.change(screen.getByLabelText("Username"), {
+      target: { value: "asael" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "admin" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
+    expect(screen.getByText("Invalid credentials")).toBeInTheDocument();
+  });
+});
