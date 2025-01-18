@@ -1,23 +1,20 @@
 "use client";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useRouter } from "next/compat/router";
 import { useEffect } from "react";
 import { Main } from "@/components/main/main";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { redirect } from "next/navigation";
 
 const queryClient = new QueryClient();
 
 export default function MainPokemon() {
   const [isLoggedIn] = useLocalStorage("isLoggedIn", false);
-  const router = useRouter();
 
   useEffect(() => {
     if (!isLoggedIn) {
-      router?.push("/");
+      redirect("/");
     }
-  }, [isLoggedIn, router]);
-
-  if (!isLoggedIn) return null;
+  }, [isLoggedIn]);
 
   return (
     <QueryClientProvider client={queryClient}>
