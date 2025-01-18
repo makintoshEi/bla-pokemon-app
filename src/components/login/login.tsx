@@ -23,7 +23,7 @@ export const Login = () => {
     e.preventDefault();
     if (user.username === "admin" && user.password === "admin") {
       setIsLoggedIn(true);
-      router.push("/pokemon-main");
+      router.push("/main-pokemon");
     } else {
       setError("Invalid credentials");
     }
