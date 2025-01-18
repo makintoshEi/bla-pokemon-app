@@ -3,10 +3,12 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { PokemonList } from "../pokemon-list/pokemon-list";
 import { Pokemon } from "@/interfaces/pokemon";
+import { SearchBar } from "../search-bar/search-bar";
+import { Layout } from "./layout";
 
 export const Main = () => {
-  const [search, setSearch] = useState("");
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const {
     data: pokemonList,
@@ -15,7 +17,6 @@ export const Main = () => {
   } = useQuery<Pokemon[]>({
     queryKey: ["pokemonList"],
     queryFn: async () => {
-      console.log("queryiiingggg ... ");
       const response = await fetch(
         "https://pokeapi.co/api/v2/pokemon?limit=151"
       );
@@ -24,31 +25,42 @@ export const Main = () => {
     },
   });
 
-  const filteredPokemon = pokemonList?.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(search.toLowerCase())
+  const filteredPokemons = pokemonList?.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
   const handleSelectedPokemon = (pokemon: string | null) => {
     setSelectedPokemon(pokemon);
   };
 
+  if (isLoading) {
+    return (
+      <Layout>
+        <p>Loading...</p>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <p>Error loading Pokemon</p>
+      </Layout>
+    );
+  }
+
   return (
-    <div className="main">
-      <input
-        type="text"
-        placeholder="Search Pokemon"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="main__search"
-        aria-label="Search Pokemon"
-      />
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error loading Pokemon</p>}
+    <Layout>
+      <SearchBar onSearch={handleSearch} />
       <PokemonList
-        pokemons={filteredPokemon}
+        pokemons={filteredPokemons}
         selectPokemon={handleSelectedPokemon}
       />
       {selectedPokemon ? <div>{selectedPokemon}</div> : null}
-    </div>
+    </Layout>
   );
 };
