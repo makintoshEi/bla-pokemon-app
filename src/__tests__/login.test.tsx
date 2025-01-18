@@ -2,10 +2,16 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Login } from "../components/login/login";
 
+const mockPush = jest.fn();
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: jest.fn(),
+    push: mockPush,
   }),
+}));
+
+const mockSetIsLoggedIn = jest.fn();
+jest.mock("../hooks/useLocalStorage", () => ({
+  useLocalStorage: () => [true, mockSetIsLoggedIn],
 }));
 
 describe("Login", () => {
@@ -27,5 +33,18 @@ describe("Login", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Login" }));
     expect(screen.getByText("Invalid credentials")).toBeInTheDocument();
+  });
+
+  it("logs in with correct credentials", () => {
+    render(<Login />);
+    fireEvent.change(screen.getByLabelText("Username"), {
+      target: { value: "admin" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "admin" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Login" }));
+    expect(mockSetIsLoggedIn).toHaveBeenCalledWith(true);
+    expect(mockPush).toHaveBeenCalledWith("/main-pokemon");
   });
 });
