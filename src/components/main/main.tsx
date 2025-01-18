@@ -2,11 +2,7 @@ import "./main.css";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { PokemonList } from "../pokemon-list/pokemon-list";
-
-interface Pokemon {
-  name: string;
-  url: string;
-}
+import { Pokemon } from "@/interfaces/pokemon";
 
 export const Main = () => {
   const [search, setSearch] = useState("");
@@ -52,7 +48,7 @@ export const Main = () => {
         pokemons={filteredPokemon}
         selectPokemon={handleSelectedPokemon}
       />
-      {/* {selectedPokemon ? <div>{selectedPokemon}</div> : null} */}
+      {selectedPokemon ? <div>{selectedPokemon}</div> : null}
     </div>
   );
 };
