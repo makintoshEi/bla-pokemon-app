@@ -1,11 +1,6 @@
 input {
-  border-radius: 8x;
+  border-radius: .5rem;
   padding: 16px;
-}
-
-button {
-  border-radius: 4px;
-  padding: 8px;
 }
 
 .main-container {

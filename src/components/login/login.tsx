@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import "./login.css";
 import { User } from "../../interfaces/user";
+import Button from "../button/button";
 
 const usernameInitialValues: User = {
   username: "",
@@ -70,9 +71,9 @@ export const Login = () => {
             </p>
           )}
         </form>
-        <button type="submit" className="login__submit" onClick={handleLogin}>
+        <Button type="submit" onClick={handleLogin}>
           Login
-        </button>
+        </Button>
       </div>
     </div>
   );

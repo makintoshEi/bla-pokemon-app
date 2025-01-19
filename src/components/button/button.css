@@ -1,0 +1,13 @@
+.button-container {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: .5rem;
+}
+
+.button-container__default {
+    background-color: rgb(19, 21, 38);
+    color: white;
+}
