@@ -34,7 +34,7 @@ export const Login = () => {
     <div className="login">
       <div className="login__card">
         <h1 className="login__title">Pokemon App</h1>
-        <form className="login__form">
+        <form onSubmit={handleLogin} className="login__form">
           <div className="login__form-group">
             <label htmlFor="username" className="login__label">
               Username
@@ -70,10 +70,10 @@ export const Login = () => {
               {error}
             </p>
           )}
+          <div className="login__form-group">
+            <Button type="submit">Login</Button>
+          </div>
         </form>
-        <Button type="submit" onClick={handleLogin}>
-          Login
-        </Button>
       </div>
     </div>
   );
