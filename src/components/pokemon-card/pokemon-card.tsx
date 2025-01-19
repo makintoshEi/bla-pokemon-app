@@ -8,7 +8,7 @@ interface PokemonCardProps {
   name: string;
   total: number;
   url: string;
-  onClick: () => void;
+  onClick: (pokemonDetails: PokemonDetails) => void;
 }
 
 export const PokemonCard = ({
@@ -26,6 +26,9 @@ export const PokemonCard = ({
     },
   });
 
+  if (!pokemon) {
+  }
+
   if (isLoading) {
     return (
       <div className="pokemon-card__loading">
@@ -37,7 +40,7 @@ export const PokemonCard = ({
   return (
     <div
       className="pokemon-card"
-      onClick={onClick}
+      onClick={() => onClick(pokemon)}
       role="button"
       aria-atomic="true"
     >

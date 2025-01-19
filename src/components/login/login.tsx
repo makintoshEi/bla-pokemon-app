@@ -18,6 +18,7 @@ export const Login = () => {
 
   const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setError("");
   };
 
   const handleLogin = (e: React.FormEvent) => {
