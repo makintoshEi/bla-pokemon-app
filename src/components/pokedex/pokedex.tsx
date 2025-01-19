@@ -1,13 +1,13 @@
 import "./main.css";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Layout } from "./layout";
+import { Layout } from "./pokedex.layout";
 import PokemonSearchBar from "../search-bar/search-bar";
 import { PokemonList } from "../pokemon-list/pokemon-list";
 import { Pokemon } from "@/interfaces/pokemon";
 import { PokemonModal } from "../pokemon-modal/pokemon-modal";
 
-export const Main = () => {
+export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const {
