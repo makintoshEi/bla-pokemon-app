@@ -1,4 +1,5 @@
 import "./pokemon-card.css";
+import { memo } from "react";
 import { PokemonDetails } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -14,7 +15,7 @@ interface PokemonCardProps {
   url: string;
 }
 
-export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
+const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
   const { setSelectedPokemon, setIsModalOpen } = usePokemonContext();
   const {
     data: pokemonDetail,
@@ -121,3 +122,5 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     </div>
   );
 };
+
+export default memo(PokemonCard);

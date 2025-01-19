@@ -51,3 +51,10 @@ export type PokemonType = 'bug' | 'dark' | 'dragon' | 'electric' | 'fairy' |
     'fighting' | 'fire' | 'flying' | 'ghost' | 'normal' | 'grass' | 'ground' |
     'ice' | 'poison' | 'psychic' | 'rock' | 'steel' | 'water';
 
+export interface PokemonsResponse {
+    count: number;
+    next: string;
+    previous: string;
+    results: Pokemon[];
+}
+

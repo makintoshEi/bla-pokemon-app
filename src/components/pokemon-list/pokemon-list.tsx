@@ -1,12 +1,13 @@
 import "./pokemon-list.css";
 import { Pokemon } from "@/interfaces/pokemon";
-import { PokemonCard } from "@/components/pokemon-card/pokemon-card";
+import PokemonCard from "@/components/pokemon-card/pokemon-card";
+import { memo } from "react";
 
 interface PokemonListProps {
   pokemons: Pokemon[] | undefined;
 }
 
-export const PokemonList = ({ pokemons }: PokemonListProps) => (
+const PokemonList = ({ pokemons }: PokemonListProps) => (
   <div className="pokemon-list">
     {pokemons?.map((pokemon, index, array) => (
       <PokemonCard
@@ -19,3 +20,5 @@ export const PokemonList = ({ pokemons }: PokemonListProps) => (
     ))}
   </div>
 );
+
+export default memo(PokemonList);

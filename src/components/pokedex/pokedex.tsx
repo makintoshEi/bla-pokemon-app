@@ -1,40 +1,44 @@
 import "./main.css";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "./pokedex.layout";
 import PokemonSearchBar from "../search-bar/search-bar";
-import { PokemonList } from "../pokemon-list/pokemon-list";
-import { Pokemon } from "@/interfaces/pokemon";
+import PokemonList from "../pokemon-list/pokemon-list";
+import { PokemonsResponse } from "@/interfaces/pokemon";
 import { PokemonModal } from "../pokemon-modal/pokemon-modal";
+import { debounce } from "lodash";
 
 export const Pokedex = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [pokemonsQuery, setPokemonsQuery] = useState("limit=200");
+  const debouncedSearch = useRef(
+    debounce((query: string) => setSearchQuery(query), 300)
+  ).current;
 
   const {
-    data: pokemonList,
+    data: pokemonResponse,
     isLoading,
     error,
-  } = useQuery<Pokemon[]>({
-    queryKey: ["pokemonList"],
+  } = useQuery<PokemonsResponse>({
+    queryKey: ["pokemonList", pokemonsQuery],
     queryFn: async () => {
       const response = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=200"
+        `https://pokeapi.co/api/v2/pokemon?${pokemonsQuery}`
       );
-      const data = await response.json();
-      return data.results;
+      return await response.json();
     },
   });
 
   const filteredPokemons = useMemo(
     () =>
-      pokemonList?.filter((pokemon) =>
+      pokemonResponse?.results.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
       ),
-    [pokemonList, searchQuery]
+    [pokemonResponse?.results, searchQuery]
   );
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
+    debouncedSearch(query);
   };
 
   if (isLoading) {
