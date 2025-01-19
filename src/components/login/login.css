@@ -5,9 +5,18 @@
     margin: auto;
 }
 
+.login__title {
+    text-align: center;
+    margin: 0;
+}
+
 .login__card {
+    border: 1px rgb(234, 234, 236) solid;
+    border-radius: 0.5rem;
     max-width: 400px;
+    padding: 16px;
     width: 100%;
+
 }
 
 .login__form-group {
@@ -20,7 +29,7 @@
 }
 
 .login__input {
-    width: 100%;
+    width: 90%;
 }
 
 .login__error {
