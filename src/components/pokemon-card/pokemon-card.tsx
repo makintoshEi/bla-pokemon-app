@@ -3,7 +3,7 @@ import { PokemonDetails } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePokemonContext } from "@/context/pokemon-context";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { POKEMON_TYPE } from "./pokemon-card.constants";
 import { Chip } from "../chip/chip";
 
@@ -50,6 +50,15 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     }
   }, [pokemonDetail?.id]);
 
+  const handleSelectPokemon = useCallback(() => {
+    setSelectedPokemon({
+      name: formattedName,
+      url: "",
+      details: pokemonDetail,
+    });
+    setIsModalOpen(true);
+  }, [formattedName, pokemonDetail, setIsModalOpen, setSelectedPokemon]);
+
   if (!pokemonDetail) {
     return null;
   }
@@ -79,14 +88,7 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
   return (
     <div
       className="pokemon-card"
-      onClick={() => {
-        setSelectedPokemon({
-          name: formattedName,
-          url: "",
-          details: pokemonDetail,
-        });
-        setIsModalOpen(true);
-      }}
+      onClick={handleSelectPokemon}
       role="button"
       aria-atomic="true"
       tabIndex={0}
