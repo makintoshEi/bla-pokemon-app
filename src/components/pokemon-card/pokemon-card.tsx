@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePokemonContext } from "@/context/pokemon-context";
 import { useMemo } from "react";
+import { POKEMON_TYPE } from "./pokemon-card.constants";
 
 interface PokemonCardProps {
   index: number;
@@ -13,6 +14,7 @@ interface PokemonCardProps {
 }
 
 export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
+  const { setSelectedPokemon, setIsModalOpen } = usePokemonContext();
   const {
     data: pokemonDetail,
     isLoading,
@@ -29,7 +31,23 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     () => `${name[0].toUpperCase() + name.slice(1)} `,
     [name]
   );
-  const { setSelectedPokemon, setIsModalOpen } = usePokemonContext();
+
+  const formattedID = useMemo(() => {
+    if (!pokemonDetail?.id) {
+      return "";
+    }
+    const pokemonIdLength = pokemonDetail.id.toString().length;
+    switch (pokemonIdLength) {
+      case 4:
+        return pokemonDetail.id;
+      case 3:
+        return `0${pokemonDetail.id}`;
+      case 2:
+        return `00${pokemonDetail.id}`;
+      default:
+        return `000${pokemonDetail.id}`;
+    }
+  }, [pokemonDetail?.id]);
 
   if (isError) {
     return (
@@ -47,6 +65,10 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     );
   }
 
+  if (!pokemonDetail) {
+    return null;
+  }
+
   return (
     <div
       className="pokemon-card"
@@ -62,20 +84,33 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
       aria-atomic="true"
       tabIndex={0}
     >
-      <span
-        tabIndex={0}
-        aria-label={`${formattedName}. Pokemon ${index} of ${total}.`}
+      <div
+        style={{
+          backgroundColor: POKEMON_TYPE[pokemonDetail?.types[0].type.name],
+        }}
+        className="pokemon-card__image-container"
       >
-        {formattedName}
-      </span>
-      <Image
-        tabIndex={0}
-        aria-label={`Image of ${formattedName} pokemon.`}
-        src={pokemonDetail?.sprites.front_default || "/placeholder.webp"}
-        alt={formattedName}
-        width={100}
-        height={100}
-      />
+        <Image
+          tabIndex={0}
+          aria-label={`Image of ${formattedName} pokemon.`}
+          src={
+            pokemonDetail?.sprites.other["official-artwork"].front_default ||
+            "/placeholder.webp"
+          }
+          alt={formattedName}
+          width={100}
+          height={100}
+        />
+      </div>
+      <div className="pokemon-card__info">
+        <span>#{formattedID}</span>
+        <h5
+          tabIndex={0}
+          aria-label={`${formattedName}. Pokemon ${index} of ${total}.`}
+        >
+          {formattedName}
+        </h5>
+      </div>
     </div>
   );
 };
