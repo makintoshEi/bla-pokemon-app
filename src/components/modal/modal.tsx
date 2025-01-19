@@ -1,6 +1,7 @@
 import "./modal.css";
 
 interface ModalProps {
+  bgColor: string;
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -8,7 +9,14 @@ interface ModalProps {
   footer?: React.ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
+const Modal = ({
+  bgColor,
+  isOpen,
+  onClose,
+  title,
+  children,
+  footer,
+}: ModalProps) => {
   if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -17,8 +25,12 @@ const Modal = ({ isOpen, onClose, title, children, footer }: ModalProps) => {
     }
   };
 
+  const styles = {
+    "--bg-color": bgColor,
+  } as React.CSSProperties;
+
   return (
-    <div className="modal" onClick={handleOverlayClick}>
+    <div style={styles} className="modal" onClick={handleOverlayClick}>
       <div className="modal__content">
         <button className="modal__close-button" onClick={onClose}>
           &times;

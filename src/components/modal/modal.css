@@ -12,12 +12,13 @@
 }
 
 .modal__content {
-    background-color: #303b37;
+    background-color: color-mix(in srgb, var(--bg-color) 20%, white 80%);
     padding: 20px;
     border-radius: 5px;
     width: 80%;
     max-width: 500px;
     position: relative;
+    color: black;
 }
 
 .modal__header {

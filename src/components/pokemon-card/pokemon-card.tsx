@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePokemonContext } from "@/context/pokemon-context";
 import { useCallback, useMemo } from "react";
-import { POKEMON_TYPE } from "./pokemon-card.constants";
+import { POKEMON_TYPE } from "../../constants/pokemon.constant";
 import { Chip } from "../chip/chip";
 
 interface PokemonCardProps {
