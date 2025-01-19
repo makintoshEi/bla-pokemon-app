@@ -8,7 +8,7 @@ import { PokemonProvider } from "@/context/pokemon-context";
 
 const queryClient = new QueryClient();
 
-export default function MainPokemon() {
+export default function MainPokedex() {
   const [isLoggedIn] = useLocalStorage("isLoggedIn", false);
 
   useEffect(() => {

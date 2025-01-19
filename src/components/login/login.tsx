@@ -25,7 +25,7 @@ export const Login = () => {
     e.preventDefault();
     if (user.username === "admin" && user.password === "admin") {
       setIsLoggedIn(true);
-      router.push("/main-pokemon");
+      router.push("/pokedex");
     } else {
       setError("Invalid credentials");
     }
