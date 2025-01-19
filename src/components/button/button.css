@@ -11,3 +11,12 @@
     background-color: rgb(19, 21, 38);
     color: white;
 }
+
+.button-container__secondary {
+    background-color: rgb(243, 246, 249);
+    color: black;
+}
+
+.button-container__secondary:hover {
+    border: 1px solid black;
+}
