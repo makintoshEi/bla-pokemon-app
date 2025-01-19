@@ -9,6 +9,7 @@ import { debounce } from "lodash";
 import PokemonPaginationButton from "@/components/button/button";
 import { usePokemonContext } from "@/context/pokemon-context";
 import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
+import { Message } from "@/components/message/message";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -63,7 +64,7 @@ export const Pokedex = () => {
   if (error) {
     return (
       <Layout>
-        <p>Error loading Pokemon</p>
+        <Message message="Error loading pokemons" variant="error" />
       </Layout>
     );
   }
@@ -76,6 +77,9 @@ export const Pokedex = () => {
           placeholder="Search pokemon"
         />
       </div>
+      {filteredPokemons.length === 0 ? (
+        <Message message="No pokemon matches this search" />
+      ) : null}
       <PokemonList pokemons={filteredPokemons} />
       <div className="pokedex__pagination-button">
         <div>
