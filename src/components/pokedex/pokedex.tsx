@@ -1,5 +1,4 @@
-import "./main.css";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "./pokedex.layout";
 import PokemonSearchBar from "../search-bar/search-bar";
@@ -7,46 +6,58 @@ import PokemonList from "../pokemon-list/pokemon-list";
 import { PokemonsResponse } from "@/interfaces/pokemon";
 import { PokemonModal } from "../pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
+import PokemonPaginationButton from "@/components/button/button";
+import { usePokemonContext } from "@/context/pokemon-context";
+import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [pokemonsQuery, setPokemonsQuery] = useState("limit=200");
+  const [offset, setOffset] = useState(0);
+  const [isNewRequest, setIsNewRequest] = useState(true);
+  const limit = 20;
+
   const debouncedSearch = useRef(
     debounce((query: string) => setSearchQuery(query), 300)
   ).current;
 
-  const {
-    data: pokemonResponse,
-    isLoading,
-    error,
-  } = useQuery<PokemonsResponse>({
-    queryKey: ["pokemonList", pokemonsQuery],
+  const { pokemons, setPokemons } = usePokemonContext();
+
+  const { isLoading, error } = useQuery<PokemonsResponse>({
+    queryKey: ["pokemonList", offset],
     queryFn: async () => {
       const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?${pokemonsQuery}`
+        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
       );
-      return await response.json();
+      const data = await response.json();
+      setIsNewRequest(false);
+      setPokemons((prev) => [...prev, ...data.results]);
+      return data;
     },
+    enabled: isNewRequest,
   });
 
   const filteredPokemons = useMemo(
     () =>
-      pokemonResponse?.results.filter((pokemon) =>
+      pokemons.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
       ),
-    [pokemonResponse?.results, searchQuery]
+    [pokemons, searchQuery]
   );
 
-  const handleSearch = (query: string) => {
-    debouncedSearch(query);
+  const handleSearch = useCallback(
+    (query: string) => {
+      debouncedSearch(query);
+    },
+    [debouncedSearch]
+  );
+
+  const handleLoadMore = () => {
+    setIsNewRequest(true);
+    setOffset((prev) => prev + limit);
   };
 
   if (isLoading) {
-    return (
-      <Layout>
-        <p>Loading...</p>
-      </Layout>
-    );
+    return <PokedexSkeleton cardCount={12} />;
   }
 
   if (error) {
@@ -59,8 +70,20 @@ export const Pokedex = () => {
 
   return (
     <Layout>
-      <PokemonSearchBar onSearch={handleSearch} placeholder="Search pokemon" />
+      <div className="pokedex__search-bar">
+        <PokemonSearchBar
+          onSearch={handleSearch}
+          placeholder="Search pokemon"
+        />
+      </div>
       <PokemonList pokemons={filteredPokemons} />
+      <div className="pokedex__pagination-button">
+        <div>
+          <PokemonPaginationButton type="button" onClick={handleLoadMore}>
+            Load more Pokemon
+          </PokemonPaginationButton>
+        </div>
+      </div>
       <PokemonModal />
     </Layout>
   );

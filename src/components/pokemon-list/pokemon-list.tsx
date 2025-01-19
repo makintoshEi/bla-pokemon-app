@@ -4,18 +4,17 @@ import PokemonCard from "@/components/pokemon-card/pokemon-card";
 import { memo } from "react";
 
 interface PokemonListProps {
-  pokemons: Pokemon[] | undefined;
+  pokemons: Pokemon[];
 }
 
 const PokemonList = ({ pokemons }: PokemonListProps) => (
   <div className="pokemon-list">
-    {pokemons?.map((pokemon, index, array) => (
+    {pokemons.map((pokemon, index, array) => (
       <PokemonCard
-        index={index + 1}
+        _index={index + 1}
         key={pokemon.name}
-        name={pokemon.name}
-        total={array.length}
-        url={pokemon.url}
+        pokemon={pokemon}
+        totalPokemons={array.length}
       />
     ))}
   </div>

@@ -1,11 +1,20 @@
 import { Pokemon } from "@/interfaces/pokemon";
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from "react";
 
 interface PokemonContextProps {
   selectedPokemon: Pokemon | undefined;
-  setSelectedPokemon: React.Dispatch<React.SetStateAction<Pokemon | undefined>>;
+  setSelectedPokemon: Dispatch<SetStateAction<Pokemon | undefined>>;
   isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  pokemons: Pokemon[];
+  setPokemons: Dispatch<SetStateAction<Pokemon[]>>;
 }
 
 const PokemonContext = createContext<PokemonContextProps>({
@@ -13,6 +22,8 @@ const PokemonContext = createContext<PokemonContextProps>({
   setSelectedPokemon: () => {},
   isModalOpen: false,
   setIsModalOpen: () => {},
+  pokemons: [],
+  setPokemons: () => {},
 });
 
 export const PokemonProvider = ({
@@ -24,12 +35,20 @@ export const PokemonProvider = ({
     undefined
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+
+  useEffect(() => {
+    console.log("loading context now !");
+    setPokemons([]);
+  }, []);
 
   const stateExposed = {
     selectedPokemon,
     setSelectedPokemon,
     isModalOpen,
     setIsModalOpen,
+    pokemons,
+    setPokemons,
   };
 
   return (

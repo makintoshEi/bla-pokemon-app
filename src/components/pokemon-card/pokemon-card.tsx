@@ -1,6 +1,6 @@
 import "./pokemon-card.css";
 import { memo } from "react";
-import { PokemonDetails } from "@/interfaces/pokemon";
+import { Pokemon, PokemonDetails } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePokemonContext } from "@/context/pokemon-context";
@@ -9,29 +9,28 @@ import { POKEMON_TYPE } from "../../constants/pokemon.constant";
 import { Chip } from "../chip/chip";
 
 interface PokemonCardProps {
-  index: number;
-  name: string;
-  total: number;
-  url: string;
+  _index: number;
+  pokemon: Pokemon;
+  totalPokemons: number;
 }
 
-const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
+const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
   const { setSelectedPokemon, setIsModalOpen } = usePokemonContext();
   const {
     data: pokemonDetail,
     isLoading,
     isError,
   } = useQuery<PokemonDetails>({
-    queryKey: ["pokemon", name],
+    queryKey: ["pokemon", pokemon.name],
     queryFn: async () => {
-      const response = await fetch(url);
+      const response = await fetch(pokemon.url);
       return response.json();
     },
   });
 
   const formattedName = useMemo(
-    () => `${name[0].toUpperCase() + name.slice(1)} `,
-    [name]
+    () => `${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}`,
+    [pokemon.name]
   );
 
   const formattedID = useMemo(() => {
@@ -112,7 +111,7 @@ const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
         <div className="pokemon-card__info-type">
           <h5
             tabIndex={0}
-            aria-label={`${formattedName}. Pokemon ${index} of ${total}.`}
+            aria-label={`${formattedName}. Pokemon ${_index} of ${totalPokemons}.`}
           >
             {formattedName}
           </h5>

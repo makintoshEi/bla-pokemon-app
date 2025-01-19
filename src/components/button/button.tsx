@@ -10,7 +10,7 @@ interface ButtonProps {
 
 const Button = ({
   children,
-  classname,
+  classname = "",
   onClick,
   type,
   variant = "default",
