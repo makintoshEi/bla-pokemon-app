@@ -45,6 +45,6 @@ describe("Login", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Login" }));
     expect(mockSetIsLoggedIn).toHaveBeenCalledWith(true);
-    expect(mockPush).toHaveBeenCalledWith("/main-pokemon");
+    expect(mockPush).toHaveBeenCalledWith("/pokedex");
   });
 });
