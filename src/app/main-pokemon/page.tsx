@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Main } from "@/components/main/main";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
+import { PokemonProvider } from "@/context/pokemon-context";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ export default function MainPokemon() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Main />
+      <PokemonProvider>
+        <Main />
+      </PokemonProvider>
     </QueryClientProvider>
   );
 }
