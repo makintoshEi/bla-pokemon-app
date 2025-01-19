@@ -70,8 +70,7 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
   }
 
   const style = {
-    "--pokemon-color":
-      POKEMON_TYPE[pokemonDetail.types[0].type.name as PokemonType],
+    "--pokemon-color": POKEMON_TYPE[pokemonDetail.types[0].type.name],
   } as React.CSSProperties;
 
   return (
