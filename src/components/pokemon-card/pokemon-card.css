@@ -13,6 +13,8 @@
 .pokemon-card__image-container {
     width: 100%;
     text-align: center;
+    --pokemon-color: #000000;
+    background-color: color-mix(in srgb, var(--pokemon-color) 20%, white 80%);
 }
 
 .pokemon-card__info {

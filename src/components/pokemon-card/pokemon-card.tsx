@@ -1,5 +1,5 @@
 import "./pokemon-card.css";
-import { PokemonDetails } from "@/interfaces/pokemon";
+import { PokemonDetails, PokemonType } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePokemonContext } from "@/context/pokemon-context";
@@ -69,6 +69,11 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     return null;
   }
 
+  const style = {
+    "--pokemon-color":
+      POKEMON_TYPE[pokemonDetail.types[0].type.name as PokemonType],
+  } as React.CSSProperties;
+
   return (
     <div
       className="pokemon-card"
@@ -84,17 +89,12 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
       aria-atomic="true"
       tabIndex={0}
     >
-      <div
-        style={{
-          backgroundColor: POKEMON_TYPE[pokemonDetail?.types[0].type.name],
-        }}
-        className="pokemon-card__image-container"
-      >
+      <div style={style} className="pokemon-card__image-container">
         <Image
           tabIndex={0}
           aria-label={`Image of ${formattedName} pokemon.`}
           src={
-            pokemonDetail?.sprites.other["official-artwork"].front_default ||
+            pokemonDetail.sprites.other["official-artwork"].front_default ||
             "/placeholder.webp"
           }
           alt={formattedName}
