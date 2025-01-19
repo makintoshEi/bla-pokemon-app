@@ -1,10 +1,11 @@
 import "./pokemon-card.css";
-import { PokemonDetails, PokemonType } from "@/interfaces/pokemon";
+import { PokemonDetails } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePokemonContext } from "@/context/pokemon-context";
 import { useMemo } from "react";
 import { POKEMON_TYPE } from "./pokemon-card.constants";
+import { Chip } from "../chip/chip";
 
 interface PokemonCardProps {
   index: number;
@@ -49,6 +50,10 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     }
   }, [pokemonDetail?.id]);
 
+  if (!pokemonDetail) {
+    return null;
+  }
+
   if (isError) {
     return (
       <div className="pokemon-card__error">
@@ -65,12 +70,10 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
     );
   }
 
-  if (!pokemonDetail) {
-    return null;
-  }
+  const pokemonType = pokemonDetail.types[0].type.name;
 
   const style = {
-    "--pokemon-color": POKEMON_TYPE[pokemonDetail.types[0].type.name],
+    "--pokemon-color": POKEMON_TYPE[pokemonType],
   } as React.CSSProperties;
 
   return (
@@ -103,12 +106,15 @@ export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
       </div>
       <div className="pokemon-card__info">
         <span>#{formattedID}</span>
-        <h5
-          tabIndex={0}
-          aria-label={`${formattedName}. Pokemon ${index} of ${total}.`}
-        >
-          {formattedName}
-        </h5>
+        <div className="pokemon-card__info-type">
+          <h5
+            tabIndex={0}
+            aria-label={`${formattedName}. Pokemon ${index} of ${total}.`}
+          >
+            {formattedName}
+          </h5>
+          <Chip styles={style}>{pokemonType}</Chip>
+        </div>
       </div>
     </div>
   );

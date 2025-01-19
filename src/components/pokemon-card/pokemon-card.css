@@ -13,15 +13,12 @@
 .pokemon-card__image-container {
     width: 100%;
     text-align: center;
-    --pokemon-color: #000000;
     background-color: color-mix(in srgb, var(--pokemon-color) 20%, white 80%);
 }
 
 .pokemon-card__info {
-    font-family: "Flexo-Demi", arial, sans-serif;
     color: #313131;
-    margin-left: 7px;
-    margin-bottom: 8px;
+    margin: 0 7px 8px;
 
     span {
         font-size: 12px;
@@ -31,6 +28,11 @@
         margin: 8px 0 0 0;
         font-size: large;
     }
+}
+
+.pokemon-card__info-type {
+    display: flex;
+    justify-content: space-between;
 }
 
 .pokemon-card__error {
