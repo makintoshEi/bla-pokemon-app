@@ -11,6 +11,14 @@
     overflow: hidden;
 }
 
+.pokemon-card__error {
+    border-radius: 7px;
+    border: 1px rgb(254, 202, 202);
+    color: rgb(239, 68, 68);
+    padding: 15px;
+
+}
+
 .pokemon-card__loading {
     display: flex;
     align-items: center;

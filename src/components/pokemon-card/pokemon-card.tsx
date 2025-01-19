@@ -2,31 +2,35 @@ import "./pokemon-card.css";
 import { PokemonDetails } from "@/interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { usePokemonContext } from "@/context/pokemon-context";
 
 interface PokemonCardProps {
   index: number;
   name: string;
   total: number;
   url: string;
-  onClick: (pokemonDetails: PokemonDetails) => void;
 }
 
-export const PokemonCard = ({
-  index,
-  name,
-  total,
-  url,
-  onClick,
-}: PokemonCardProps) => {
-  const { data: pokemon, isLoading } = useQuery<PokemonDetails>({
+export const PokemonCard = ({ index, name, total, url }: PokemonCardProps) => {
+  const {
+    data: pokemonDetail,
+    isLoading,
+    isError,
+  } = useQuery<PokemonDetails>({
     queryKey: ["pokemon", name],
     queryFn: async () => {
       const response = await fetch(url);
       return response.json();
     },
   });
+  const { setSelectedPokemon, setIsModalOpen } = usePokemonContext();
 
-  if (!pokemon) {
+  if (isError) {
+    return (
+      <div className="pokemon-card__error">
+        <span>Error loading the component...</span>
+      </div>
+    );
   }
 
   if (isLoading) {
@@ -40,7 +44,10 @@ export const PokemonCard = ({
   return (
     <div
       className="pokemon-card"
-      onClick={() => onClick(pokemon)}
+      onClick={() => {
+        setSelectedPokemon({ name: name, url: "", details: pokemonDetail });
+        setIsModalOpen(true);
+      }}
       role="button"
       aria-atomic="true"
     >
@@ -50,7 +57,7 @@ export const PokemonCard = ({
       <Image
         tabIndex={0}
         aria-label={`Image of ${name} pokemon.`}
-        src={pokemon?.sprites.front_default || "/placeholder.webp"}
+        src={pokemonDetail?.sprites.front_default || "/placeholder.webp"}
         alt={name}
         width={80}
         height={80}

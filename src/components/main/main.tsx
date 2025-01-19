@@ -4,13 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Layout } from "./layout";
 import PokemonSearchBar from "../search-bar/search-bar";
 import { PokemonList } from "../pokemon-list/pokemon-list";
-import PokemonSelectedModal from "@/components/modal/modal";
 import { Pokemon } from "@/interfaces/pokemon";
+import { PokemonModal } from "../pokemon-modal/pokemon-modal";
 
 export const Main = () => {
-  const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: pokemonList,
@@ -39,11 +37,6 @@ export const Main = () => {
     setSearchQuery(query);
   };
 
-  const handleSelectedPokemon = (pokemon: string | null) => {
-    setSelectedPokemon(pokemon);
-    setIsModalOpen(true);
-  };
-
   if (isLoading) {
     return (
       <Layout>
@@ -63,19 +56,8 @@ export const Main = () => {
   return (
     <Layout>
       <PokemonSearchBar onSearch={handleSearch} placeholder="Search pokemon" />
-      <PokemonList
-        pokemons={filteredPokemons}
-        onSelectPokemon={handleSelectedPokemon}
-      />
-      {selectedPokemon ? (
-        <PokemonSelectedModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title={selectedPokemon}
-        >
-          {selectedPokemon}
-        </PokemonSelectedModal>
-      ) : null}
+      <PokemonList pokemons={filteredPokemons} />
+      <PokemonModal />
     </Layout>
   );
 };

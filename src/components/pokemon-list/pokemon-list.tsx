@@ -2,15 +2,11 @@ import "./pokemon-list.css";
 import { Pokemon } from "@/interfaces/pokemon";
 import { PokemonCard } from "@/components/pokemon-card/pokemon-card";
 
-type PokemonListProps = {
+interface PokemonListProps {
   pokemons: Pokemon[] | undefined;
-  onSelectPokemon: (value: string | null) => void;
-};
+}
 
-export const PokemonList = ({
-  pokemons,
-  onSelectPokemon,
-}: PokemonListProps) => (
+export const PokemonList = ({ pokemons }: PokemonListProps) => (
   <div className="pokemon-list">
     {pokemons?.map((pokemon, index, array) => (
       <PokemonCard
@@ -19,7 +15,6 @@ export const PokemonList = ({
         name={pokemon.name}
         total={array.length}
         url={pokemon.url}
-        onClick={() => onSelectPokemon(pokemon.name)}
       />
     ))}
   </div>
