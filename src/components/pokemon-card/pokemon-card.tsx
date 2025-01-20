@@ -1,12 +1,11 @@
 import "./pokemon-card.css";
-import { memo } from "react";
-import { Pokemon, PokemonDetails } from "@/interfaces/pokemon";
+import { useCallback, useMemo, memo } from "react";
+import { Pokemon, PokemonDetails } from "interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { usePokemonContext } from "@/context/pokemon-context";
-import { useCallback, useMemo } from "react";
-import { POKEMON_TYPE } from "../../constants/pokemon.constant";
-import { Chip } from "../chip/chip";
+import PokemonImage from "next/image";
+import { usePokemonContext } from "context/pokemon-context";
+import { POKEMON_TYPE } from "constants/pokemon.constant";
+import { Chip } from "components/chip/chip";
 
 interface PokemonCardProps {
   _index: number;
@@ -94,7 +93,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       tabIndex={0}
     >
       <div style={style} className="pokemon-card__image-container">
-        <Image
+        <PokemonImage
           tabIndex={0}
           aria-label={`Image of ${formattedName} pokemon.`}
           src={

@@ -1,6 +1,6 @@
-import Modal from "@/components/modal/modal";
-import { POKEMON_TYPE } from "@/constants/pokemon.constant";
-import { usePokemonContext } from "@/context/pokemon-context";
+import Modal from "components/modal/modal";
+import { POKEMON_TYPE } from "constants/pokemon.constant";
+import { usePokemonContext } from "context/pokemon-context";
 
 export const PokemonModal = () => {
   const { isModalOpen, selectedPokemon, setIsModalOpen } = usePokemonContext();

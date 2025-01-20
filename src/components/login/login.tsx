@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "hooks/useLocalStorage";
 import "./login.css";
-import { User } from "../../interfaces/user";
-import Button from "../button/button";
+import { User } from "interfaces/user";
+import Button from "components/button/button";
 
 const usernameInitialValues: User = {
   username: "",

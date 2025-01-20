@@ -1,21 +1,21 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "./pokedex.layout";
-import PokemonSearchBar from "../search-bar/search-bar";
-import PokemonList from "../pokemon-list/pokemon-list";
-import { PokemonsResponse } from "@/interfaces/pokemon";
-import { PokemonModal } from "../pokemon-modal/pokemon-modal";
+import PokemonSearchBar from "components/search-bar/search-bar";
+import PokemonList from "components/pokemon-list/pokemon-list";
+import { PokemonsResponse } from "interfaces/pokemon";
+import { PokemonModal } from "components/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
-import PokemonPaginationButton from "@/components/button/button";
-import { usePokemonContext } from "@/context/pokemon-context";
+import PokemonPaginationButton from "components/button/button";
+import { usePokemonContext } from "context/pokemon-context";
 import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
-import { Message } from "@/components/message/message";
+import { Message } from "components/message/message";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [offset, setOffset] = useState(0);
   const [isNewRequest, setIsNewRequest] = useState(true);
-  const limit = 20;
+  const limit = 100;
 
   const debouncedSearch = useRef(
     debounce((query: string) => setSearchQuery(query), 300)
