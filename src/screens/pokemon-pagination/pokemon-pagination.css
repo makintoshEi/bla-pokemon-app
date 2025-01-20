@@ -1,0 +1,17 @@
+.pokemon-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 12px;
+    padding: 0 1rem;
+
+    a {
+        text-decoration: underline;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}

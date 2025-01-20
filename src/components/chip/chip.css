@@ -1,0 +1,10 @@
+.chip-container {
+    border-radius: 3px;
+    background-color: color-mix(in srgb, var(--pokemon-color) 90%, white 80%);
+    padding: 4px;
+    width: 20%;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    border: 1px var(--pokemon-color) solid;
+}

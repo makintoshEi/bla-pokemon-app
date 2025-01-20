@@ -1,0 +1,7 @@
+.pokedex {
+    display: flex;
+    flex-direction: column;
+    max-width: 1024px;
+    margin: auto;
+    margin-top: 1rem;
+}

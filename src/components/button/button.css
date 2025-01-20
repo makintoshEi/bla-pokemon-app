@@ -1,0 +1,22 @@
+.button-container {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: .5rem;
+}
+
+.button-container__default {
+    background-color: rgb(19, 21, 38);
+    color: white;
+}
+
+.button-container__secondary {
+    background-color: rgb(243, 246, 249);
+    color: black;
+}
+
+.button-container__secondary:hover {
+    border: 1px solid black;
+}
