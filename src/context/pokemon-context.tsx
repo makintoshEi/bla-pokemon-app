@@ -5,7 +5,6 @@ import {
   useState,
   Dispatch,
   SetStateAction,
-  useEffect,
 } from "react";
 
 interface PokemonContextProps {
@@ -36,11 +35,6 @@ export const PokemonProvider = ({
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-
-  useEffect(() => {
-    console.log("loading context now !");
-    setPokemons([]);
-  }, []);
 
   const stateExposed = {
     selectedPokemon,
