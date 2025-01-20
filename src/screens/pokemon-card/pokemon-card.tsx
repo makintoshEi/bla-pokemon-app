@@ -36,14 +36,14 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     }
     const pokemonIdLength = pokemonDetail.id.toString().length;
     switch (pokemonIdLength) {
-      case 4:
-        return pokemonDetail.id;
-      case 3:
-        return `0${pokemonDetail.id}`;
+      case 1:
+        return `000${pokemonDetail.id}`;
       case 2:
         return `00${pokemonDetail.id}`;
+      case 3:
+        return `0${pokemonDetail.id}`;
       default:
-        return `000${pokemonDetail.id}`;
+        return pokemonDetail.id;
     }
   }, [pokemonDetail?.id]);
 
