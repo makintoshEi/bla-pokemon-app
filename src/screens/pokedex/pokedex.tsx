@@ -1,15 +1,15 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Layout } from "./pokedex.layout";
-import PokemonSearchBar from "components/search-bar/search-bar";
 import PokemonList from "screens/pokemon-list/pokemon-list";
 import { PokemonsResponse } from "interfaces/pokemon";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
 import { usePokemonContext } from "context/pokemon-context";
 import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
-import { Message } from "components/message/message";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
+import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
+import { Message } from "components/message/message";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,17 +78,18 @@ export const Pokedex = () => {
     );
   }
 
+  if (pokemons.length > 0 && filteredPokemons.length === 0) {
+    return (
+      <Layout>
+        <PokemonSearchBar onSearch={handleSearch} />
+        <Message message="No pokemon matches this search" />
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
-      <div className="pokedex__search-bar">
-        <PokemonSearchBar
-          onSearch={handleSearch}
-          placeholder="Search pokemon"
-        />
-      </div>
-      {filteredPokemons.length === 0 ? (
-        <Message message="No pokemon matches this search" />
-      ) : null}
+      <PokemonSearchBar onSearch={handleSearch} />
       {searchQuery.length === 0 ? (
         <PokemonPagination
           offset={offset}
