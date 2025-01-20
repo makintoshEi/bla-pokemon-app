@@ -72,7 +72,10 @@ export const Pokedex = () => {
   if (error) {
     return (
       <Layout>
-        <Message message="Error loading pokemons" variant="error" />
+        <Message
+          message="Error loading pokemons, refresh the page"
+          variant="error"
+        />
       </Layout>
     );
   }

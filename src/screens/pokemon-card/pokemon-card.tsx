@@ -63,7 +63,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
   if (isError) {
     return (
       <div className="pokemon-card__error">
-        <span>Error loading the component...</span>
+        <span>Error loading the pokemon...</span>
       </div>
     );
   }
