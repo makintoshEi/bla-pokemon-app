@@ -10,15 +10,17 @@ import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
 import { Message } from "components/message/message";
+import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
+import { getPokemons } from "api/pokemon.api";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [offset, setOffset] = useState(0);
   const [isNewRequest, setIsNewRequest] = useState(true);
-  const limit = 100;
+  const limit = PAGINATION_LIMIT;
 
   const debouncedSearch = useRef(
-    debounce((query: string) => setSearchQuery(query), 300)
+    debounce((query: string) => setSearchQuery(query), DEBOUNCE_TIME)
   ).current;
 
   const { pokemons, setPokemons } = usePokemonContext();
@@ -30,13 +32,10 @@ export const Pokedex = () => {
   } = useQuery<PokemonsResponse>({
     queryKey: ["pokemonList", offset],
     queryFn: async () => {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
-      );
-      const data = await response.json();
+      const response = await getPokemons(offset, limit);
       setIsNewRequest(false);
-      setPokemons(data.results);
-      return data;
+      setPokemons(response.results);
+      return response;
     },
     enabled: isNewRequest,
   });

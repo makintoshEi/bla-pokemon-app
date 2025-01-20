@@ -6,6 +6,7 @@ import PokemonImage from "next/image";
 import { usePokemonContext } from "context/pokemon-context";
 import { POKEMON_TYPE } from "constants/pokemon.constant";
 import { Chip } from "components/chip/chip";
+import { getPokemon } from "api/pokemon.api";
 
 interface PokemonCardProps {
   _index: number;
@@ -21,10 +22,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     isError,
   } = useQuery<PokemonDetails>({
     queryKey: ["pokemon", pokemon.name],
-    queryFn: async () => {
-      const response = await fetch(pokemon.url);
-      return response.json();
-    },
+    queryFn: async () => await getPokemon(pokemon.url),
   });
 
   const formattedName = useMemo(
