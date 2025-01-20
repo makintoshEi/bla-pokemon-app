@@ -14,14 +14,18 @@ export const PokemonPagination = ({
   totalPokemons,
 }: PokemonPaginationProps) => {
   return (
-    <div className="pokemon-pagination">
-      {offset ? <a onClick={() => onBack()}>Last</a> : null}
-      {totalPokemons - offset >= 100 ? (
-        <a role="button" onClick={() => onNext()}>
-          Next
+    <div className="pokemon-pagination" aria-atomic="true">
+      {offset ? (
+        <a tabIndex={0} onClick={() => onBack()}>
+          &larr;Previous
         </a>
       ) : null}
-      <p>
+      {totalPokemons - offset >= 100 ? (
+        <a tabIndex={0} role="button" onClick={() => onNext()}>
+          Next&rarr;
+        </a>
+      ) : null}
+      <p aria-label="kk">
         Pokemons: {offset} of {totalPokemons}
       </p>
     </div>
