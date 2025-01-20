@@ -25,7 +25,7 @@ export const PokemonPagination = ({
           Next&rarr;
         </a>
       ) : null}
-      <p aria-label="kk">
+      <p tabIndex={0} aria-live="polite">
         Pokemons: {offset} of {totalPokemons}
       </p>
     </div>
