@@ -92,15 +92,21 @@ export const Pokedex = () => {
   return (
     <Layout>
       <PokemonSearchBar onSearch={handleSearch} />
-      {searchQuery.length === 0 ? (
-        <PokemonPagination
-          offset={offset}
-          onBack={handleBackNavigation}
-          onNext={handleNextPagination}
-          totalPokemons={pokemonsResponse?.count || 0}
-        />
-      ) : null}
+      <PokemonPagination
+        offset={offset}
+        onBack={handleBackNavigation}
+        onNext={handleNextPagination}
+        searchQueryLength={searchQuery.length}
+        totalPokemons={pokemonsResponse?.count || 0}
+      />
       <PokemonList pokemons={filteredPokemons} />
+      <PokemonPagination
+        offset={offset}
+        onBack={handleBackNavigation}
+        onNext={handleNextPagination}
+        searchQueryLength={searchQuery.length}
+        totalPokemons={pokemonsResponse?.count || 0}
+      />
       <PokemonModal />
     </Layout>
   );
