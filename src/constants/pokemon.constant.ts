@@ -1,6 +1,6 @@
 import { PokemonType } from "interfaces/pokemon";
 
-export const POKEMON_TYPE: Record<PokemonType, string> = {
+const POKEMON_TYPE: Record<PokemonType, string> = {
     'bug': '#A7B723',
     'dark': '#75574C',
     'dragon': '#7037FF',
@@ -21,4 +21,7 @@ export const POKEMON_TYPE: Record<PokemonType, string> = {
     'water': '#6493EB',
 }
 
-export const PAGINATION_LIMITS = [50, 100, 200];
+const PAGINATION_LIMIT = 100;
+const DEBOUNCE_TIME = 300;
+
+export { DEBOUNCE_TIME, PAGINATION_LIMIT, POKEMON_TYPE };

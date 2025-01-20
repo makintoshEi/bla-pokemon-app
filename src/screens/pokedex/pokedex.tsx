@@ -89,12 +89,14 @@ export const Pokedex = () => {
       {filteredPokemons.length === 0 ? (
         <Message message="No pokemon matches this search" />
       ) : null}
-      <PokemonPagination
-        offset={offset}
-        onBack={handleBackNavigation}
-        onNext={handleNextPagination}
-        totalPokemons={pokemonsResponse?.count || 0}
-      ></PokemonPagination>
+      {searchQuery.length === 0 ? (
+        <PokemonPagination
+          offset={offset}
+          onBack={handleBackNavigation}
+          onNext={handleNextPagination}
+          totalPokemons={pokemonsResponse?.count || 0}
+        />
+      ) : null}
       <PokemonList pokemons={filteredPokemons} />
       <PokemonModal />
     </Layout>
