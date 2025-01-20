@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Pokedex } from "screens/pokedex/pokedex";
 import { PokemonProvider } from "context/pokemon-context";
@@ -181,6 +181,27 @@ describe("<Pokedex />", () => {
       });
       expect(searchBarInput).toHaveValue("bulbasaur");
       expect(getByText("Bulbasaur")).toBeInTheDocument();
+    });
+  });
+
+  it("should search for pikachu and not found it", async () => {
+    mockGetPokemons.mockResolvedValue({
+      count: 1400,
+      next: "",
+      previous: "",
+      results: mockPokemons,
+    });
+
+    mockGetPokemon.mockResolvedValue(mockPokemon);
+
+    const { getByText, getByPlaceholderText } = renderWithQueryClient();
+    await waitFor(() => {
+      const searchBarInput = getByPlaceholderText("Search pokemon");
+      fireEvent.change(searchBarInput, {
+        target: { value: "pikachu" },
+      });
+      expect(searchBarInput).toHaveValue("pikachu");
+      expect(getByText("No pokemon matches this search")).toBeInTheDocument();
     });
   });
 });
