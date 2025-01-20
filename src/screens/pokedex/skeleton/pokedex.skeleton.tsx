@@ -8,7 +8,7 @@ interface PokedexSkeletonProps {
 export const PokedexSkeleton = ({ cardCount }: PokedexSkeletonProps) => {
   return (
     <Layout>
-      <div className="pokedex__search-bar">
+      <div data-testID="pokedex-skeleton" className="pokedex__search-bar">
         <div className="search-bar-skeleton pulse"></div>
       </div>
 
