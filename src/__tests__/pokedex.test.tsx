@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Pokedex } from "screens/pokedex/pokedex";
 import { PokemonProvider } from "context/pokemon-context";
@@ -8,7 +8,6 @@ import { PokemonType } from "interfaces/pokemon";
 
 jest.mock("../api/pokemon.api");
 
-// Mock the debounce function
 jest.mock("lodash", () => ({
   debounce: jest.fn(() => console.log("debouncing")),
 }));
@@ -97,6 +96,13 @@ const mockPokemon = {
   ],
 };
 
+const pokemonsResponse = {
+  count: 1400,
+  next: "",
+  previous: "",
+  results: mockPokemons,
+};
+
 describe("<Pokedex />", () => {
   let queryClient: QueryClient;
 
@@ -134,12 +140,7 @@ describe("<Pokedex />", () => {
   });
 
   it("should render pokemon list after loading", async () => {
-    mockGetPokemons.mockResolvedValue({
-      count: 1400,
-      next: "",
-      previous: "",
-      results: mockPokemons,
-    });
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
 
     mockGetPokemon.mockResolvedValue(mockPokemon);
 
@@ -164,12 +165,7 @@ describe("<Pokedex />", () => {
   });
 
   it("should search for bulbasaur", async () => {
-    mockGetPokemons.mockResolvedValue({
-      count: 1400,
-      next: "",
-      previous: "",
-      results: mockPokemons,
-    });
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
 
     mockGetPokemon.mockResolvedValue(mockPokemon);
 
@@ -185,12 +181,7 @@ describe("<Pokedex />", () => {
   });
 
   it("should search for pikachu and not found it", async () => {
-    mockGetPokemons.mockResolvedValue({
-      count: 1400,
-      next: "",
-      previous: "",
-      results: mockPokemons,
-    });
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
 
     mockGetPokemon.mockResolvedValue(mockPokemon);
 
@@ -202,6 +193,20 @@ describe("<Pokedex />", () => {
       });
       expect(searchBarInput).toHaveValue("pikachu");
       expect(getByText("No pokemon matches this search")).toBeInTheDocument();
+    });
+  });
+
+  it("should click on Bulbasaur and show modal and then close the modal", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+
+    mockGetPokemon.mockResolvedValue(mockPokemon);
+
+    const { getByText, getByRole, getByTestId } = renderWithQueryClient();
+    await waitFor(() => {
+      const pokemonElement = getByTestId("bulbasaur");
+      fireEvent.click(pokemonElement);
+      expect(getByText("Abilities")).toBeInTheDocument();
+      fireEvent.click(getByRole("button", { name: "×" }));
     });
   });
 });

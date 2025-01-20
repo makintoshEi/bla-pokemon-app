@@ -84,9 +84,11 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
 
   return (
     <div
+      data-testid={pokemon.name}
       className="pokemon-card"
       onClick={handleSelectPokemon}
       role="button"
+      aria-label={`This is ${pokemon.name} pokemon`}
       aria-atomic="true"
       tabIndex={0}
     >
