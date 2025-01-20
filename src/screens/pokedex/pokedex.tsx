@@ -6,10 +6,10 @@ import PokemonList from "screens/pokemon-list/pokemon-list";
 import { PokemonsResponse } from "interfaces/pokemon";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
-import PokemonPaginationButton from "components/button/button";
 import { usePokemonContext } from "context/pokemon-context";
 import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
 import { Message } from "components/message/message";
+import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,7 +23,11 @@ export const Pokedex = () => {
 
   const { pokemons, setPokemons } = usePokemonContext();
 
-  const { isLoading, error } = useQuery<PokemonsResponse>({
+  const {
+    data: pokemonsResponse,
+    isLoading,
+    error,
+  } = useQuery<PokemonsResponse>({
     queryKey: ["pokemonList", offset],
     queryFn: async () => {
       const response = await fetch(
@@ -31,7 +35,7 @@ export const Pokedex = () => {
       );
       const data = await response.json();
       setIsNewRequest(false);
-      setPokemons((prev) => [...prev, ...data.results]);
+      setPokemons(data.results);
       return data;
     },
     enabled: isNewRequest,
@@ -52,7 +56,12 @@ export const Pokedex = () => {
     [debouncedSearch]
   );
 
-  const handleLoadMore = () => {
+  const handleBackNavigation = () => {
+    setIsNewRequest(true);
+    setOffset((prev) => prev - limit);
+  };
+
+  const handleNextPagination = () => {
     setIsNewRequest(true);
     setOffset((prev) => prev + limit);
   };
@@ -80,14 +89,13 @@ export const Pokedex = () => {
       {filteredPokemons.length === 0 ? (
         <Message message="No pokemon matches this search" />
       ) : null}
+      <PokemonPagination
+        offset={offset}
+        onBack={handleBackNavigation}
+        onNext={handleNextPagination}
+        totalPokemons={pokemonsResponse?.count || 0}
+      ></PokemonPagination>
       <PokemonList pokemons={filteredPokemons} />
-      <div className="pokedex__pagination-button">
-        <div>
-          <PokemonPaginationButton type="button" onClick={handleLoadMore}>
-            Load more Pokemon
-          </PokemonPaginationButton>
-        </div>
-      </div>
       <PokemonModal />
     </Layout>
   );

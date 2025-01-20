@@ -1,4 +1,4 @@
-import { PokemonType } from "@/interfaces/pokemon";
+import { PokemonType } from "interfaces/pokemon";
 
 export const POKEMON_TYPE: Record<PokemonType, string> = {
     'bug': '#A7B723',
@@ -20,3 +20,5 @@ export const POKEMON_TYPE: Record<PokemonType, string> = {
     'steel': '#B7B9D0',
     'water': '#6493EB',
 }
+
+export const PAGINATION_LIMITS = [50, 100, 200];
