@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Login } from "../components/login/login";
+import { Login } from "../screens/login/login";
 
 const mockPush = jest.fn();
 jest.mock("next/navigation", () => ({

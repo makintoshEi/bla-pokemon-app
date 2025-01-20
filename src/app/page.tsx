@@ -1,5 +1,5 @@
 "use client";
-import { Login } from "components/login/login";
+import { Login } from "screens/login/login";
 
 export default function Home() {
   return (

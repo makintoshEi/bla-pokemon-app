@@ -1,7 +1,7 @@
 import "./pokemon-list.css";
 import { memo } from "react";
 import { Pokemon } from "interfaces/pokemon";
-import PokemonCard from "components/pokemon-card/pokemon-card";
+import PokemonCard from "screens/pokemon-card/pokemon-card";
 
 interface PokemonListProps {
   pokemons: Pokemon[];
