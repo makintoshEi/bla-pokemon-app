@@ -20,7 +20,7 @@ export const PokemonPagination = ({
       {searchQueryLength === 0 ? (
         <div className="pokemon-pagination" aria-atomic="true">
           {offset ? (
-            <a tabIndex={0} onClick={() => onBack()}>
+            <a tabIndex={0} role="button" onClick={() => onBack()}>
               &larr;Previous
             </a>
           ) : null}
@@ -30,7 +30,7 @@ export const PokemonPagination = ({
             </a>
           ) : null}
           <p tabIndex={0} aria-live="polite">
-            Pokemons: {offset} of {totalPokemons}
+            Pokemons: {offset === 0 ? "100" : offset} of {totalPokemons}
           </p>
         </div>
       ) : null}
