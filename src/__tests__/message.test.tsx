@@ -1,4 +1,4 @@
-import { Message } from "@/components/message/message";
+import { Message } from "components/message/message";
 import { render } from "@testing-library/react";
 
 describe("<Message />", () => {
