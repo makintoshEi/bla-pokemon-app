@@ -10,13 +10,12 @@ import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
 import { Message } from "components/message/message";
-import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
+import { DEBOUNCE_TIME, PAGINATION_LIMIT, STALE_TIME } from "constants/pokemon.constant";
 import { getPokemons } from "api/pokemon.api";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [offset, setOffset] = useState(0);
-  const [isNewRequest, setIsNewRequest] = useState(true);
   const limit = PAGINATION_LIMIT;
 
   const debouncedSearch = useRef(
@@ -24,7 +23,7 @@ export const Pokedex = () => {
   ).current;
 
   const { pokemons, setPokemons } = usePokemonContext();
-
+ 
   const {
     data: pokemonsResponse,
     isLoading,
@@ -33,11 +32,11 @@ export const Pokedex = () => {
     queryKey: ["pokemonList", offset],
     queryFn: async () => {
       const response = await getPokemons(offset, limit);
-      setIsNewRequest(false);
       setPokemons(response.results);
       return response;
     },
-    enabled: isNewRequest,
+    staleTime: STALE_TIME,
+    refetchOnWindowFocus: false
   });
 
   const filteredPokemons = useMemo(
@@ -56,12 +55,10 @@ export const Pokedex = () => {
   );
 
   const handleBackNavigation = () => {
-    setIsNewRequest(true);
     setOffset((prev) => prev - limit);
   };
 
   const handleNextPagination = () => {
-    setIsNewRequest(true);
     setOffset((prev) => prev + limit);
   };
 
