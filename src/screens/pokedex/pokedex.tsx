@@ -10,7 +10,7 @@ import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
 import { Message } from "components/message/message";
-import { DEBOUNCE_TIME, PAGINATION_LIMIT, STALE_TIME } from "constants/pokemon.constant";
+import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
 import { getPokemons } from "api/pokemon.api";
 
 export const Pokedex = () => {
@@ -35,8 +35,6 @@ export const Pokedex = () => {
       setPokemons(response.results);
       return response;
     },
-    staleTime: STALE_TIME,
-    refetchOnWindowFocus: false
   });
 
   const filteredPokemons = useMemo(

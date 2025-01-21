@@ -3,9 +3,10 @@ import { useCallback, useMemo, memo } from "react";
 import { Pokemon, PokemonDetails } from "interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import { usePokemonContext } from "context/pokemon-context";
-import { POKEMON_TYPE, STALE_TIME } from "constants/pokemon.constant";
+import { POKEMON_TYPE } from "constants/pokemon.constant";
 import { Chip } from "components/chip/chip";
 import { getPokemon } from "api/pokemon.api";
+import PokemonImage from "next/image"
 
 interface PokemonCardProps {
   _index: number;
@@ -22,8 +23,6 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
   } = useQuery<PokemonDetails>({
     queryKey: ["pokemon", pokemon.name],
     queryFn: async () => await getPokemon(pokemon.url),
-    staleTime: STALE_TIME,
-    refetchOnWindowFocus: false
   });
 
   const formattedName = useMemo(
@@ -94,7 +93,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       tabIndex={0}
     >
       <div style={style} className="pokemon-card__image-container">
-        <img
+        <PokemonImage
           tabIndex={0}
           aria-label={`Image of ${formattedName} pokemon.`}
           src={
@@ -105,6 +104,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
           width={100}
           height={100}
           loading="lazy"
+          unoptimized
         />
       </div>
       <div className="pokemon-card__info">
