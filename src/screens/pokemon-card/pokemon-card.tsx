@@ -2,11 +2,11 @@ import "./pokemon-card.css";
 import { useCallback, useMemo, memo } from "react";
 import { Pokemon, PokemonDetails } from "interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
-import PokemonImage from "next/image";
 import { usePokemonContext } from "context/pokemon-context";
 import { POKEMON_TYPE } from "constants/pokemon.constant";
 import { Chip } from "components/chip/chip";
 import { getPokemon } from "api/pokemon.api";
+import PokemonImage from "next/image"
 
 interface PokemonCardProps {
   _index: number;
@@ -103,6 +103,8 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
           alt={formattedName}
           width={100}
           height={100}
+          loading="lazy"
+          unoptimized
         />
       </div>
       <div className="pokemon-card__info">

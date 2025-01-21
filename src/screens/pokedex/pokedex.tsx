@@ -16,7 +16,6 @@ import { getPokemons } from "api/pokemon.api";
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [offset, setOffset] = useState(0);
-  const [isNewRequest, setIsNewRequest] = useState(true);
   const limit = PAGINATION_LIMIT;
 
   const debouncedSearch = useRef(
@@ -24,7 +23,7 @@ export const Pokedex = () => {
   ).current;
 
   const { pokemons, setPokemons } = usePokemonContext();
-
+ 
   const {
     data: pokemonsResponse,
     isLoading,
@@ -33,11 +32,9 @@ export const Pokedex = () => {
     queryKey: ["pokemonList", offset],
     queryFn: async () => {
       const response = await getPokemons(offset, limit);
-      setIsNewRequest(false);
       setPokemons(response.results);
       return response;
     },
-    enabled: isNewRequest,
   });
 
   const filteredPokemons = useMemo(
@@ -56,12 +53,10 @@ export const Pokedex = () => {
   );
 
   const handleBackNavigation = () => {
-    setIsNewRequest(true);
     setOffset((prev) => prev - limit);
   };
 
   const handleNextPagination = () => {
-    setIsNewRequest(true);
     setOffset((prev) => prev + limit);
   };
 
