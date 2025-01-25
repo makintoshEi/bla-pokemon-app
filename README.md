@@ -91,19 +91,19 @@ The selected state management solution is React's ContextAPI. It holds three key
 - `selectedPokemon`
 - `isModalOpen`
 
-# TypeScript Strategy
+## TypeScript Strategy
 
 This project is stronly typed, ensuring . Each `component`,hooks has it's own `interfaces`.
 
-# Types organization
+## Types organization
 
 The `interfaces/` directory has two key files `pokemom.ts` & `user.ts`. Each file exposes the reusable `types` and `interfaces`.
 
-# Styling Methodology
+## Styling Methodology
 
 With pure CSS and using `BEM` methodology that helps to create reusable components.
 
-# Testing Strategy
+## Testing Strategy
 
 With Jest & React Testing library. I created tests for key screens and components:
 `<Login />`: Tests for correct rendering, log in with correct credentials & show error if invalid credentials.  
