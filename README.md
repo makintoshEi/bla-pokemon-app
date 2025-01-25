@@ -34,7 +34,7 @@ The Pokedex as I called the main screen shows a search bar and the paginated pok
 - If the word entered matches more pokemons then all of them will be shown on the list.
 - If a pokemon is `clicked` then a modal will appear showing it's abilities, moves and forms.
 
-## This project was built with these 4 topics in mind:
+## This project was built with these 3 topics in mind:
 
 - Code reusability: ensuring a good Component Composition through the use of `early returns` that enhances the cohesion of components, `custom hooks`, `Context API`, `conditional rendering` and breaking the application in `small components` that obey to the Single Responsibility Principle.
 
@@ -85,13 +85,13 @@ The architecture promotes:
 
 ### State Management
 
-The selected state management solution is React's ContextAPI. If the project grows. It holds three key states with their respective setters:
+The selected state management solution is React's ContextAPI. It holds three key states with their respective setters:
 
 - `pokemons`
 - `selectedPokemon`
 - `isModalOpen`
 
-### TypeScript Strategy
+# TypeScript Strategy
 
 This project is stronly typed, ensuring . Each `component`,hooks has it's own `interfaces`.
 
@@ -99,11 +99,11 @@ This project is stronly typed, ensuring . Each `component`,hooks has it's own `i
 
 The `interfaces/` directory has two key files `pokemom.ts` & `user.ts`. Each file exposes the reusable `types` and `interfaces`.
 
-### Styling Methodology
+# Styling Methodology
 
 With pure CSS and using `BEM` methodology that helps to create reusable components.
 
-### Testing Strategy
+# Testing Strategy
 
 With Jest & React Testing library. I created tests for key screens and components:
 `<Login />`: Tests for correct rendering, log in with correct credentials & show error if invalid credentials.  
