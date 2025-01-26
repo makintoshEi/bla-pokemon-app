@@ -136,7 +136,7 @@ describe("<Pokedex />", () => {
       results: [],
     });
     const { getByTestId } = renderWithQueryClient();
-    expect(getByTestId("pokedex-skeleton")).toBeInTheDocument();
+    expect(getByTestId("spinner")).toBeInTheDocument();
   });
 
   it("should render pokemon list after loading", async () => {

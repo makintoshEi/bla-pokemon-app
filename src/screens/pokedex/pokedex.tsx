@@ -6,9 +6,9 @@ import { PokemonsResponse } from "interfaces/pokemon";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
 import { usePokemonContext } from "context/pokemon-context";
-import { PokedexSkeleton } from "./skeleton/pokedex.skeleton";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
+import PokemonSpinner from "components/spinner/spinner";
 import { Message } from "components/message/message";
 import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
 import { getPokemons } from "api/pokemon.api";
@@ -23,7 +23,7 @@ export const Pokedex = () => {
   ).current;
 
   const { pokemons, setPokemons } = usePokemonContext();
- 
+
   const {
     data: pokemonsResponse,
     isLoading,
@@ -59,10 +59,6 @@ export const Pokedex = () => {
   const handleNextPagination = () => {
     setOffset((prev) => prev + limit);
   };
-
-  if (isLoading) {
-    return <PokedexSkeleton cardCount={12} />;
-  }
 
   if (error) {
     return (
@@ -103,6 +99,7 @@ export const Pokedex = () => {
         totalPokemons={pokemonsResponse?.count || 0}
       />
       <PokemonModal />
+      {isLoading && <PokemonSpinner size={48} />}
     </Layout>
   );
 };

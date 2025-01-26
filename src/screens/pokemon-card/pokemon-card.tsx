@@ -6,7 +6,7 @@ import { usePokemonContext } from "context/pokemon-context";
 import { POKEMON_TYPE } from "constants/pokemon.constant";
 import { Chip } from "components/chip/chip";
 import { getPokemon } from "api/pokemon.api";
-import PokemonImage from "next/image"
+import PokemonImage from "next/image";
 
 interface PokemonCardProps {
   _index: number;
@@ -76,7 +76,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     );
   }
 
-  const pokemonType = pokemonDetail.types[0].type.name;
+  const pokemonType = pokemonDetail.types[0]?.type.name;
 
   const style = {
     "--pokemon-color": POKEMON_TYPE[pokemonType],
