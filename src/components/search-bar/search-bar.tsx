@@ -1,3 +1,4 @@
+import { useFocus } from "hooks/useFocus";
 import "./search-bar.css";
 import { useState } from "react";
 
@@ -8,6 +9,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
   const [search, setSearch] = useState("");
+  const { currentRef } = useFocus();
 
   const handleSearch = (query: string) => {
     setSearch(query);
@@ -17,6 +19,8 @@ export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
   return (
     <div className="search">
       <input
+        ref={currentRef}
+        tabIndex={-1}
         type="text"
         placeholder={placeholder}
         value={search}
