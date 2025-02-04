@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import "./pokemon-pagination.css";
 
 export interface PokemonPaginationProps {
@@ -17,17 +18,21 @@ export const PokemonPagination = ({
   searchQueryLength,
   totalPokemons,
 }: PokemonPaginationProps) => {
+  const paginationDescription = useMemo(
+    () =>
+      `Pokemons: ${
+        offset === 0
+          ? `${offset + 1} to ${limit} of ${totalPokemons}`
+          : totalPokemons - offset >= limit
+          ? `${offset + 1} to ${offset + limit} of ${totalPokemons}`
+          : `${offset + 1} to ${totalPokemons}`
+      }`,
+    [limit, offset, totalPokemons]
+  );
+
   if (searchQueryLength > 0) {
     return null;
   }
-
-  const paginationDescription = `Pokemons: ${
-    offset === 0
-      ? `${offset + 1} to ${limit} of ${totalPokemons}`
-      : totalPokemons - offset >= limit
-      ? `${offset + 1} to ${offset + limit} of ${totalPokemons}`
-      : `${offset + 1} to ${totalPokemons}`
-  }`;
 
   return (
     <div className="pokemon-pagination" aria-atomic="true">
