@@ -18,14 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <title>Pokemon App ! search yours</title>
+      <head>
+        <title>Pokemon App ! search yours</title>
+      </head>
       <body
+        role="main"
         style={{ margin: 0 }}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main role="main" className="main-container">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );

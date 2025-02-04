@@ -1,7 +1,9 @@
 .login {
     display: flex;
     justify-content: center;
-    width: 600px;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
     margin: auto;
 }
 
@@ -11,6 +13,7 @@
     max-width: 400px;
     padding: 16px;
     width: 100%;
+    margin: 16px;
 }
 
 .login__title {
