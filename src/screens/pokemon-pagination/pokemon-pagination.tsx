@@ -1,6 +1,7 @@
 import "./pokemon-pagination.css";
 
-interface PokemonPaginationProps {
+export interface PokemonPaginationProps {
+  limit: number;
   offset: number;
   onBack: () => void;
   onNext: () => void;
@@ -9,31 +10,40 @@ interface PokemonPaginationProps {
 }
 
 export const PokemonPagination = ({
+  limit,
   offset,
   onBack,
   onNext,
   searchQueryLength,
   totalPokemons,
 }: PokemonPaginationProps) => {
+  if (searchQueryLength > 0) {
+    return null;
+  }
+
+  const paginationDescription = `Pokemons: ${
+    offset === 0
+      ? `${offset + 1} to ${limit} of ${totalPokemons}`
+      : totalPokemons - offset >= limit
+      ? `${offset + 1} to ${offset + limit} of ${totalPokemons}`
+      : `${offset + 1} to ${totalPokemons}`
+  }`;
+
   return (
-    <>
-      {searchQueryLength === 0 ? (
-        <div className="pokemon-pagination" aria-atomic="true">
-          {offset ? (
-            <a tabIndex={0} role="button" onClick={() => onBack()}>
-              &larr;Previous
-            </a>
-          ) : null}
-          {totalPokemons - offset >= 100 ? (
-            <a tabIndex={0} role="button" onClick={() => onNext()}>
-              Next&rarr;
-            </a>
-          ) : null}
-          <p tabIndex={0} aria-live="polite">
-            Pokemons: {offset === 0 ? "100" : offset} of {totalPokemons}
-          </p>
-        </div>
+    <div className="pokemon-pagination" aria-atomic="true">
+      {offset > 0 ? (
+        <a tabIndex={0} role="button" onClick={() => onBack()}>
+          &larr;Previous
+        </a>
       ) : null}
-    </>
+      {totalPokemons - offset >= limit ? (
+        <a tabIndex={0} role="button" onClick={() => onNext()}>
+          Next&rarr;
+        </a>
+      ) : null}
+      <p tabIndex={0} aria-live="polite">
+        {paginationDescription}
+      </p>
+    </div>
   );
 };

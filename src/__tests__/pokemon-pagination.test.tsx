@@ -1,23 +1,29 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
+import {
+  PokemonPagination,
+  PokemonPaginationProps,
+} from "screens/pokemon-pagination/pokemon-pagination";
+import { PAGINATION_LIMIT } from "constants/pokemon.constant";
 
 const mockOnBack = jest.fn();
 const mockOnNext = jest.fn();
 describe("<PokemonPagination />", () => {
-  const props = {
+  const props: PokemonPaginationProps = {
+    limit: PAGINATION_LIMIT,
     offset: 0,
     onBack: mockOnBack,
     onNext: mockOnNext,
     searchQueryLength: 0,
     totalPokemons: 1000,
   };
-  it("should render only next buttons and 1000 pokemons", () => {
+
+  it("should render initial page with 1000 pokemons", () => {
     const { getByText } = render(<PokemonPagination {...props} />);
     expect(getByText("Next→")).toBeInTheDocument();
-    expect(getByText("Pokemons: 100 of 1000").textContent).toBe(
-      "Pokemons: 100 of 1000"
-    );
+    expect(
+      getByText(`Pokemons: 1 to ${props.limit} of 1000`)
+    ).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Next→" }));
     expect(mockOnNext).toHaveBeenCalled();
   });
@@ -27,9 +33,11 @@ describe("<PokemonPagination />", () => {
     localProps.offset = 200;
     const { getByText } = render(<PokemonPagination {...localProps} />);
     expect(getByText("←Previous")).toBeInTheDocument();
-    expect(getByText("Pokemons: 200 of 1000").textContent).toBe(
-      "Pokemons: 200 of 1000"
-    );
+    expect(
+      getByText(
+        `Pokemons: 201 to ${localProps.offset + localProps.limit} of 1000`
+      )
+    ).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "←Previous" }));
     expect(mockOnBack).toHaveBeenCalled();
   });
@@ -37,9 +45,12 @@ describe("<PokemonPagination />", () => {
   it("should render only previous button because offset is 1000 pokemons", () => {
     const localProps = { ...props };
     localProps.offset = 1000;
-    const paginationText = "Pokemons: 1000 of 1000";
     const { getByText } = render(<PokemonPagination {...localProps} />);
     expect(getByText("←Previous")).toBeInTheDocument();
-    expect(getByText(paginationText).textContent).toBe(paginationText);
+    expect(
+      getByText(
+        `Pokemons: ${localProps.offset + 1} to ${localProps.totalPokemons}`
+      )
+    ).toBeInTheDocument();
   });
 });

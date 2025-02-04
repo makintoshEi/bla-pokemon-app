@@ -16,7 +16,6 @@ import { getPokemons } from "api/pokemon.api";
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [offset, setOffset] = useState(0);
-  const limit = PAGINATION_LIMIT;
 
   const debouncedSearch = useRef(
     debounce((query: string) => setSearchQuery(query), DEBOUNCE_TIME)
@@ -31,7 +30,7 @@ export const Pokedex = () => {
   } = useQuery<PokemonsResponse>({
     queryKey: ["pokemonList", offset],
     queryFn: async () => {
-      const response = await getPokemons(offset, limit);
+      const response = await getPokemons(offset, PAGINATION_LIMIT);
       setPokemons(response.results);
       return response;
     },
@@ -53,11 +52,11 @@ export const Pokedex = () => {
   );
 
   const handleBackNavigation = () => {
-    setOffset((prev) => prev - limit);
+    setOffset((prev) => prev - PAGINATION_LIMIT);
   };
 
   const handleNextPagination = () => {
-    setOffset((prev) => prev + limit);
+    setOffset((prev) => prev + PAGINATION_LIMIT);
   };
 
   if (error) {
@@ -84,6 +83,7 @@ export const Pokedex = () => {
     <Layout>
       <PokemonSearchBar onSearch={handleSearch} />
       <PokemonPagination
+        limit={PAGINATION_LIMIT}
         offset={offset}
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
@@ -92,6 +92,7 @@ export const Pokedex = () => {
       />
       <PokemonList pokemons={filteredPokemons} />
       <PokemonPagination
+        limit={PAGINATION_LIMIT}
         offset={offset}
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
