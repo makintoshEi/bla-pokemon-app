@@ -15,7 +15,7 @@ export default function Home() {
   }, [isLoggedIn, router]);
 
   return (
-    <main className="main-container">
+    <main role="main" className="main-container">
       <Login />
     </main>
   );
