@@ -23,7 +23,9 @@ export default function RootLayout({
         style={{ margin: 0 }}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <main role="main" className="main-container">
+          {children}
+        </main>
       </body>
     </html>
   );
