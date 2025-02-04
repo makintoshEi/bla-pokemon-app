@@ -6,7 +6,7 @@ import { usePokemonContext } from "context/pokemon-context";
 import { POKEMON_TYPE } from "constants/pokemon.constant";
 import { Chip } from "components/chip/chip";
 import { getPokemon } from "api/pokemon.api";
-import PokemonImage from "next/image";
+import PokemonImage from "components/optimized-image/optimized-image";
 
 interface PokemonCardProps {
   _index: number;
@@ -94,17 +94,11 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     >
       <div style={style} className="pokemon-card__image-container">
         <PokemonImage
-          tabIndex={0}
-          aria-label={`Image of ${formattedName} pokemon.`}
-          src={
-            pokemonDetail.sprites.other["official-artwork"].front_default ||
-            "/placeholder.webp"
-          }
+          ariaLabel={`Image of ${formattedName} pokemon.`}
+          src={pokemonDetail.sprites.other["official-artwork"].front_default}
           alt={formattedName}
           width={100}
           height={100}
-          loading="lazy"
-          unoptimized
         />
       </div>
       <div className="pokemon-card__info">
