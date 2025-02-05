@@ -59,6 +59,14 @@ export const Pokedex = () => {
     setOffset((prev) => prev + PAGINATION_LIMIT);
   };
 
+  if (isLoading) {
+    return (
+      <Layout>
+        <PokemonSpinner size={92} />
+      </Layout>
+    );
+  }
+
   if (error) {
     return (
       <Layout>
@@ -100,7 +108,6 @@ export const Pokedex = () => {
         totalPokemons={pokemonsResponse?.count || 0}
       />
       <PokemonModal />
-      {isLoading && <PokemonSpinner size={92} />}
     </Layout>
   );
 };
