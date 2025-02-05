@@ -21,7 +21,7 @@ const POKEMON_TYPE: Record<PokemonType, string> = {
     'water': '#6493EB',
 }
 
-const PAGINATION_LIMIT = 100;
+const PAGINATION_LIMIT = +(process.env.NEXT_PUBLIC_PAGINATION_LIMIT || 50);
 const DEBOUNCE_TIME = 300;
 const STALE_TIME = 24 * 60 * 60 * 1000;
 
