@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
   const [search, setSearch] = useState("");
-  const { currentRef } = useFocus();
+  const { currentRef } = useFocus<HTMLInputElement>();
 
   const handleSearch = (query: string) => {
     setSearch(query);
