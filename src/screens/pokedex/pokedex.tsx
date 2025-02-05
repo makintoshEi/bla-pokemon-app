@@ -100,7 +100,7 @@ export const Pokedex = () => {
         totalPokemons={pokemonsResponse?.count || 0}
       />
       <PokemonModal />
-      {isLoading && <PokemonSpinner size={48} />}
+      {isLoading && <PokemonSpinner size={92} />}
     </Layout>
   );
 };
