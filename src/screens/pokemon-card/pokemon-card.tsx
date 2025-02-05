@@ -7,6 +7,7 @@ import { POKEMON_TYPE } from "constants/pokemon.constant";
 import { Chip } from "components/chip/chip";
 import { getPokemon } from "api/pokemon.api";
 import PokemonImage from "components/optimized-image/optimized-image";
+import { Message } from "components/message/message";
 
 interface PokemonCardProps {
   _index: number;
@@ -56,14 +57,10 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     setIsModalOpen(true);
   }, [formattedName, pokemonDetail, setIsModalOpen, setSelectedPokemon]);
 
-  if (!pokemonDetail) {
-    return null;
-  }
-
   if (isError) {
     return (
       <div className="pokemon-card__error">
-        <span>Error loading the pokemon...</span>
+        <Message message="Error loading the pokemon..." variant="error" />
       </div>
     );
   }
@@ -71,12 +68,12 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
   if (isLoading) {
     return (
       <div className="pokemon-card__loading">
-        <span>Loading...</span>
+        <Message message="loading..." />
       </div>
     );
   }
 
-  const pokemonType = pokemonDetail.types[0]?.type.name;
+  const pokemonType = pokemonDetail!.types[0]?.type.name;
 
   const style = {
     "--pokemon-color": POKEMON_TYPE[pokemonType],
@@ -95,7 +92,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       <div style={style} className="pokemon-card__image-container">
         <PokemonImage
           ariaLabel={`Image of ${formattedName} pokemon.`}
-          src={pokemonDetail.sprites.other["official-artwork"].front_default}
+          src={pokemonDetail!.sprites.other["official-artwork"].front_default}
           alt={formattedName}
           width={100}
           height={100}
