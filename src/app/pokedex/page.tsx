@@ -5,11 +5,12 @@ import { Pokedex } from "screens/pokedex/pokedex";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PokemonProvider } from "context/pokemon-context";
 import { useRouter } from "next/navigation";
+import { Logout } from "screens/logout/logout";
 
 const queryClient = new QueryClient();
 
 export default function MainPokedex() {
-  const [isLoggedIn] = useLocalStorage("isLoggedIn", false);
+  const [isLoggedIn, setIsLoggedIn] = useLocalStorage("isLoggedIn", false);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,11 +19,19 @@ export default function MainPokedex() {
     }
   }, [isLoggedIn, router]);
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    router.replace("/");
+  };
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <PokemonProvider>
-        <Pokedex />
-      </PokemonProvider>
-    </QueryClientProvider>
+    <>
+      <Logout onLogout={handleLogout} />
+      <QueryClientProvider client={queryClient}>
+        <PokemonProvider>
+          <Pokedex />
+        </PokemonProvider>
+      </QueryClientProvider>
+    </>
   );
 }
