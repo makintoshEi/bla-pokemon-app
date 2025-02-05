@@ -22,7 +22,6 @@ export default function RootLayout({
         <title>Pokemon App ! search yours</title>
       </head>
       <body
-        role="main"
         style={{ margin: 0 }}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
