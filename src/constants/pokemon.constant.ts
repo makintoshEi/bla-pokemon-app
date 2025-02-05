@@ -22,7 +22,7 @@ const POKEMON_TYPE: Record<PokemonType, string> = {
 }
 
 const PAGINATION_LIMIT = +(process.env.NEXT_PUBLIC_PAGINATION_LIMIT || 50);
-const DEBOUNCE_TIME = 300;
+const DEBOUNCE_TIME = +(process.env.NEXT_PUBLIC_DEBOUNCE_TIME || 300);
 const STALE_TIME = 24 * 60 * 60 * 1000;
 
 export { DEBOUNCE_TIME, PAGINATION_LIMIT, POKEMON_TYPE, STALE_TIME };
