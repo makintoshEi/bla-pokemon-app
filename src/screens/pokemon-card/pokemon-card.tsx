@@ -4,10 +4,10 @@ import { Pokemon, PokemonDetails } from "interfaces/pokemon";
 import { useQuery } from "@tanstack/react-query";
 import { usePokemonContext } from "context/pokemon-context";
 import { POKEMON_TYPE } from "constants/pokemon.constant";
-import { Chip } from "components/chip/chip";
 import { getPokemon } from "api/pokemon.api";
 import PokemonImage from "components/optimized-image/optimized-image";
 import { Message } from "components/message/message";
+import { PokemonInfo } from "./pokemon-info";
 
 interface PokemonCardProps {
   _index: number;
@@ -30,23 +30,6 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     () => `${pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}`,
     [pokemon.name]
   );
-
-  const formattedID = useMemo(() => {
-    if (!pokemonDetail?.id) {
-      return "";
-    }
-    const pokemonIdLength = pokemonDetail.id.toString().length;
-    switch (pokemonIdLength) {
-      case 1:
-        return `000${pokemonDetail.id}`;
-      case 2:
-        return `00${pokemonDetail.id}`;
-      case 3:
-        return `0${pokemonDetail.id}`;
-      default:
-        return pokemonDetail.id;
-    }
-  }, [pokemonDetail?.id]);
 
   const handleSelectPokemon = useCallback(() => {
     setSelectedPokemon({
@@ -99,16 +82,13 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
         />
       </div>
       <div className="pokemon-card__info">
-        <span>#{formattedID}</span>
-        <div className="pokemon-card__info-type">
-          <h5
-            tabIndex={0}
-            aria-label={`${formattedName}. Pokemon ${_index} of ${totalPokemons}.`}
-          >
-            {formattedName}
-          </h5>
-          <Chip styles={style}>{pokemonType}</Chip>
-        </div>
+        <PokemonInfo
+          idx={_index}
+          pokemonDetails={pokemonDetail}
+          pokemonName={formattedName}
+          style={style}
+          totalPokemons={totalPokemons}
+        />
       </div>
     </div>
   );
