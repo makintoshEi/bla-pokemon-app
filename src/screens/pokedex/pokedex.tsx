@@ -4,7 +4,7 @@ import PokemonList from "screens/pokemon-list/pokemon-list";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
-import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
+import { PokemonSearchBar } from "screens/pokemon-search-bar/pokemon-search-bar";
 import PokemonSpinner from "components/spinner/spinner";
 import { Message } from "components/message/message";
 import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
