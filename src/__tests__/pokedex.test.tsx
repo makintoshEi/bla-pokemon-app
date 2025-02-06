@@ -2,9 +2,10 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Pokedex } from "screens/pokedex/pokedex";
 import { PokemonProvider } from "context/pokemon-context";
-import { getPokemons, getPokemon } from "../api/pokemon.api";
+import { getPokemons } from "../api/pokemon.api";
 import "@testing-library/jest-dom";
-import { PokemonType } from "interfaces/pokemon";
+import { PokemonsResponse } from "interfaces/pokemon";
+import pokemonsMock from "./mock-data.json";
 
 jest.mock("../api/pokemon.api");
 
@@ -13,95 +14,8 @@ jest.mock("lodash", () => ({
 }));
 
 const mockGetPokemons = getPokemons as jest.MockedFunction<typeof getPokemons>;
-const mockGetPokemon = getPokemon as jest.MockedFunction<typeof getPokemon>;
 
-const mockPokemons = [
-  {
-    name: "bulbasaur",
-    url: "https://pokeapi.co/api/v2/pokemon/1/",
-  },
-  {
-    name: "ivysaur",
-    url: "https://pokeapi.co/api/v2/pokemon/2/",
-  },
-  {
-    name: "venusaur",
-    url: "https://pokeapi.co/api/v2/pokemon/3/",
-  },
-  {
-    name: "charmander",
-    url: "https://pokeapi.co/api/v2/pokemon/4/",
-  },
-];
-
-const mockPokemon = {
-  abilities: [
-    {
-      ability: {
-        name: "overgrow",
-        url: "https://pokeapi.co/api/v2/ability/65/",
-      },
-    },
-    {
-      ability: {
-        name: "chlorophyll",
-        url: "https://pokeapi.co/api/v2/ability/34/",
-      },
-    },
-  ],
-  forms: [
-    {
-      name: "bulbasaur",
-      url: "https://pokeapi.co/api/v2/pokemon-form/1/",
-    },
-  ],
-  id: 1,
-  moves: [
-    {
-      move: {
-        name: "razor-wind",
-      },
-    },
-    {
-      move: {
-        name: "swords-dance",
-      },
-    },
-    {
-      move: {
-        name: "cut",
-      },
-    },
-  ],
-  sprites: {
-    other: {
-      home: {
-        front_default:
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png",
-      },
-      "official-artwork": {
-        front_default:
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
-      },
-    },
-  },
-  types: [
-    {
-      slot: 1,
-      type: {
-        name: "grass" as PokemonType,
-        url: "https://pokeapi.co/api/v2/type/12/",
-      },
-    },
-  ],
-};
-
-const pokemonsResponse = {
-  count: 1400,
-  next: "",
-  previous: "",
-  results: mockPokemons,
-};
+const pokemonsResponse = pokemonsMock as PokemonsResponse;
 
 describe("<Pokedex />", () => {
   let queryClient: QueryClient;
@@ -142,8 +56,6 @@ describe("<Pokedex />", () => {
   it("should render pokemon list after loading", async () => {
     mockGetPokemons.mockResolvedValue(pokemonsResponse);
 
-    mockGetPokemon.mockResolvedValue(mockPokemon);
-
     const { getByText } = renderWithQueryClient();
 
     await waitFor(() => {
@@ -167,8 +79,6 @@ describe("<Pokedex />", () => {
   it("should search for bulbasaur", async () => {
     mockGetPokemons.mockResolvedValue(pokemonsResponse);
 
-    mockGetPokemon.mockResolvedValue(mockPokemon);
-
     const { getByText, getByPlaceholderText } = renderWithQueryClient();
     await waitFor(() => {
       const searchBarInput = getByPlaceholderText("Search pokemon");
@@ -183,8 +93,6 @@ describe("<Pokedex />", () => {
   it("should search for pikachu and not found it", async () => {
     mockGetPokemons.mockResolvedValue(pokemonsResponse);
 
-    mockGetPokemon.mockResolvedValue(mockPokemon);
-
     const { getByText, getByPlaceholderText } = renderWithQueryClient();
     await waitFor(() => {
       const searchBarInput = getByPlaceholderText("Search pokemon");
@@ -198,8 +106,6 @@ describe("<Pokedex />", () => {
 
   it("should click on Bulbasaur and show modal and then close the modal", async () => {
     mockGetPokemons.mockResolvedValue(pokemonsResponse);
-
-    mockGetPokemon.mockResolvedValue(mockPokemon);
 
     const { getByText, getByRole, getByTestId } = renderWithQueryClient();
     await waitFor(() => {

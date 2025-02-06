@@ -12,8 +12,6 @@ interface PokemonContextProps {
   setSelectedPokemon: Dispatch<SetStateAction<Pokemon | undefined>>;
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
-  pokemons: Pokemon[];
-  setPokemons: Dispatch<SetStateAction<Pokemon[]>>;
 }
 
 const PokemonContext = createContext<PokemonContextProps>({
@@ -21,8 +19,6 @@ const PokemonContext = createContext<PokemonContextProps>({
   setSelectedPokemon: () => {},
   isModalOpen: false,
   setIsModalOpen: () => {},
-  pokemons: [],
-  setPokemons: () => {},
 });
 
 export const PokemonProvider = ({
@@ -34,15 +30,12 @@ export const PokemonProvider = ({
     undefined
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
   const stateExposed = {
     selectedPokemon,
     setSelectedPokemon,
     isModalOpen,
     setIsModalOpen,
-    pokemons,
-    setPokemons,
   };
 
   return (
