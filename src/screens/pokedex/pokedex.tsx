@@ -3,7 +3,6 @@ import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
-import { usePokemonContext } from "context/pokemon-context";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
 import PokemonSpinner from "components/spinner/spinner";
