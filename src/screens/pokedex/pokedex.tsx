@@ -19,13 +19,11 @@ export const Pokedex = () => {
     debounce((query: string) => setSearchQuery(query), DEBOUNCE_TIME)
   ).current;
 
-  const { pokemons, setPokemons } = usePokemonContext();
-
   const {
     data: pokemonsResponse,
     isLoading,
     error,
-  } = usePokemonList(offset, PAGINATION_LIMIT, setPokemons);
+  } = usePokemonList(offset, PAGINATION_LIMIT);
 
   const filteredPokemons = useMemo(
     () =>
@@ -69,7 +67,7 @@ export const Pokedex = () => {
     );
   }
 
-  if (pokemons.length > 0 && filteredPokemons?.length === 0) {
+  if (filteredPokemons?.length === 0) {
     return (
       <Layout>
         <PokemonSearchBar onSearch={handleSearch} />
