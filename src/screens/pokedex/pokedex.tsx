@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
@@ -13,6 +13,7 @@ import { usePokemonList } from "hooks/usePokemonList";
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(PAGINATION_LIMIT);
 
   const debouncedSearch = useRef(
     debounce((query: string) => setSearchQuery(query), DEBOUNCE_TIME)
@@ -22,7 +23,8 @@ export const Pokedex = () => {
     data: pokemonsResponse,
     isLoading,
     error,
-  } = usePokemonList(offset, PAGINATION_LIMIT);
+    refetch,
+  } = usePokemonList(offset, limit);
 
   const filteredPokemons = useMemo(
     () =>
@@ -40,12 +42,21 @@ export const Pokedex = () => {
   );
 
   const handleBackNavigation = () => {
-    setOffset((prev) => prev - PAGINATION_LIMIT);
+    setOffset((prev) => prev - limit);
   };
 
   const handleNextPagination = () => {
-    setOffset((prev) => prev + PAGINATION_LIMIT);
+    setOffset((prev) => prev + limit);
   };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    setOffset(0);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [limit]);
 
   if (isLoading) {
     return (
@@ -79,21 +90,23 @@ export const Pokedex = () => {
     <Layout>
       <PokemonSearchBar onSearch={handleSearch} />
       <PokemonPagination
-        limit={PAGINATION_LIMIT}
+        limit={limit}
         offset={offset}
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
         totalPokemons={pokemonsResponse?.count || 0}
+        onLimitChange={handleLimitChange}
       />
       <PokemonList pokemons={filteredPokemons!} />
       <PokemonPagination
-        limit={PAGINATION_LIMIT}
+        limit={limit}
         offset={offset}
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
         totalPokemons={pokemonsResponse?.count || 0}
+        onLimitChange={handleLimitChange}
       />
       <PokemonModal />
     </Layout>
