@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
 import { PokemonsResponse } from "interfaces/pokemon";
@@ -10,7 +10,11 @@ import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
 import PokemonSpinner from "components/spinner/spinner";
 import { Message } from "components/message/message";
-import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
+import {
+  DEBOUNCE_TIME,
+  PAGINATION_LIMIT,
+  STALE_TIME,
+} from "constants/pokemon.constant";
 import { getPokemons } from "api/pokemon.api";
 
 export const Pokedex = () => {
@@ -34,14 +38,17 @@ export const Pokedex = () => {
       setPokemons(response.results);
       return response;
     },
+    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+    staleTime: STALE_TIME,
   });
 
   const filteredPokemons = useMemo(
     () =>
-      pokemons.filter((pokemon) =>
+      pokemonsResponse?.results.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
       ),
-    [pokemons, searchQuery]
+    [pokemonsResponse, searchQuery]
   );
 
   const handleSearch = useCallback(
@@ -78,7 +85,7 @@ export const Pokedex = () => {
     );
   }
 
-  if (pokemons.length > 0 && filteredPokemons.length === 0) {
+  if (pokemons.length > 0 && filteredPokemons?.length === 0) {
     return (
       <Layout>
         <PokemonSearchBar onSearch={handleSearch} />
@@ -98,7 +105,7 @@ export const Pokedex = () => {
         searchQueryLength={searchQuery.length}
         totalPokemons={pokemonsResponse?.count || 0}
       />
-      <PokemonList pokemons={filteredPokemons} />
+      <PokemonList pokemons={filteredPokemons!} />
       <PokemonPagination
         limit={PAGINATION_LIMIT}
         offset={offset}
