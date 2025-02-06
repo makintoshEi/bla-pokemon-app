@@ -29,10 +29,8 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     setIsModalOpen(true);
   }, [formattedName, pokemon.details, setIsModalOpen, setSelectedPokemon]);
 
-  const pokemonType = pokemon.details!.types[0]?.type.name;
-
   const style = {
-    "--pokemon-color": POKEMON_TYPE[pokemonType],
+    "--pokemon-color": POKEMON_TYPE[pokemon.details!.types[0]?.type.name],
   } as React.CSSProperties;
 
   return (

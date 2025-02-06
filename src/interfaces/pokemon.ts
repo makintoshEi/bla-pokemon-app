@@ -53,8 +53,7 @@ export type PokemonType = 'bug' | 'dark' | 'dragon' | 'electric' | 'fairy' |
 
 export interface PokemonsResponse {
     count: number;
-    next: string;
-    previous: string;
+    next: string | null;
+    previous: string | null;
     results: Pokemon[];
 }
-
