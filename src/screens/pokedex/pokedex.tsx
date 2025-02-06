@@ -1,8 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
-import { PokemonsResponse } from "interfaces/pokemon";
 import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
 import { usePokemonContext } from "context/pokemon-context";
@@ -10,12 +8,8 @@ import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination
 import { PokemonSearchBar } from "./pokemon-search-bar/pokemon-search-bar";
 import PokemonSpinner from "components/spinner/spinner";
 import { Message } from "components/message/message";
-import {
-  DEBOUNCE_TIME,
-  PAGINATION_LIMIT,
-  STALE_TIME,
-} from "constants/pokemon.constant";
-import { getPokemons } from "api/pokemon.api";
+import { DEBOUNCE_TIME, PAGINATION_LIMIT } from "constants/pokemon.constant";
+import { usePokemonList } from "hooks/usePokemonList";
 
 export const Pokedex = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,17 +25,7 @@ export const Pokedex = () => {
     data: pokemonsResponse,
     isLoading,
     error,
-  } = useQuery<PokemonsResponse>({
-    queryKey: ["pokemonList", offset],
-    queryFn: async () => {
-      const response = await getPokemons(offset, PAGINATION_LIMIT);
-      setPokemons(response.results);
-      return response;
-    },
-    refetchOnWindowFocus: false,
-    placeholderData: keepPreviousData,
-    staleTime: STALE_TIME,
-  });
+  } = usePokemonList(offset, PAGINATION_LIMIT, setPokemons);
 
   const filteredPokemons = useMemo(
     () =>
