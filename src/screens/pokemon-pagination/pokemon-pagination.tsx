@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import "./pokemon-pagination.css";
+import { LIMITS } from "constants/pokemon.constant";
+import PaginationSelect from "components/select/select";
 
 export interface PokemonPaginationProps {
   limit: number;
@@ -8,6 +10,7 @@ export interface PokemonPaginationProps {
   onNext: () => void;
   searchQueryLength: number;
   totalPokemons: number;
+  onLimitChange: (newLimit: number) => void;
 }
 
 export const PokemonPagination = ({
@@ -17,6 +20,7 @@ export const PokemonPagination = ({
   onNext,
   searchQueryLength,
   totalPokemons,
+  onLimitChange,
 }: PokemonPaginationProps) => {
   const paginationDescription = useMemo(
     () =>
@@ -49,6 +53,11 @@ export const PokemonPagination = ({
       <p tabIndex={0} aria-live="polite">
         {paginationDescription}
       </p>
+      <PaginationSelect<number>
+        onChange={onLimitChange}
+        options={LIMITS}
+        value={limit}
+      />
     </div>
   );
 };

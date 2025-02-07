@@ -5,7 +5,7 @@ import { STALE_TIME } from "constants/pokemon.constant";
 
 export const usePokemonList = (offset: number, limit: number) => {
     return useQuery<PokemonsResponse>({
-        queryKey: ["pokemonList", offset],
+        queryKey: ["pokemonList", offset, limit],
         queryFn: async () => await getPokemons(offset, limit),
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
