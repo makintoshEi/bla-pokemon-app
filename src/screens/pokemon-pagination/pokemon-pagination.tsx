@@ -53,7 +53,7 @@ export const PokemonPagination = ({
       <p tabIndex={0} aria-live="polite">
         {paginationDescription}
       </p>
-      <PaginationSelect
+      <PaginationSelect<number>
         onChange={onLimitChange}
         options={LIMITS}
         value={limit}

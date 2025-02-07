@@ -1,19 +1,32 @@
 import "./select.css";
 
-interface SelectProps {
-  onChange: (selectedValue: number) => void;
-  options: string[] | number[];
-  value: number;
+type SelectType = string | number;
+
+interface SelectProps<T extends SelectType> {
+  onChange: (selectedValue: T) => void;
+  options: T[];
+  value: T;
 }
 
-export default function Select({ onChange, options, value }: SelectProps) {
+export default function Select<T extends SelectType>({
+  onChange,
+  options,
+  value,
+}: SelectProps<T>) {
+  const handleChange = (selectedValue: string) => {
+    const convertedValue = (
+      typeof value === "number" ? +selectedValue : selectedValue
+    ) as T;
+    onChange(convertedValue);
+  };
+
   return (
     <select
       className="select-container"
       value={value}
-      onChange={(e) => onChange(Number(e.target.value))}
+      onChange={(e) => handleChange(e.target.value)}
     >
-      {options.map((option, index: number) => (
+      {options.map((option: T, index: number) => (
         <option key={index} value={option}>
           {option}
         </option>
