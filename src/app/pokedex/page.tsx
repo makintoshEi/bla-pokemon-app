@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PokemonProvider } from "context/pokemon-context";
 import { useRouter } from "next/navigation";
 import { Logout } from "screens/logout/logout";
+import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ export default function MainPokedex() {
       <QueryClientProvider client={queryClient}>
         <PokemonProvider>
           <Pokedex />
+          <PokemonModal />
         </PokemonProvider>
       </QueryClientProvider>
     </>
