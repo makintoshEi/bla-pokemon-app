@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
-import { PokemonModal } from "screens/pokemon-modal/pokemon-modal";
 import { debounce } from "lodash";
 import { PokemonPagination } from "screens/pokemon-pagination/pokemon-pagination";
 import { PokemonSearchBar } from "screens/pokemon-search-bar/pokemon-search-bar";
@@ -95,7 +94,7 @@ export const Pokedex = () => {
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse?.count || 0}
+        totalPokemons={pokemonsResponse!.count}
         onLimitChange={handleLimitChange}
       />
       <PokemonList pokemons={filteredPokemons!} />
@@ -105,10 +104,9 @@ export const Pokedex = () => {
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse?.count || 0}
+        totalPokemons={pokemonsResponse!.count}
         onLimitChange={handleLimitChange}
       />
-      <PokemonModal />
     </Layout>
   );
 };

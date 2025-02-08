@@ -1,13 +1,23 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Pokedex } from "screens/pokedex/pokedex";
-import { PokemonProvider } from "context/pokemon-context";
-import { getPokemons } from "../api/pokemon.api";
 import "@testing-library/jest-dom";
+import { fireEvent, render, waitFor } from "@testing-library/react";
+import MainPokedex from "app/pokedex/page";
+import { getPokemons } from "../api/pokemon.api";
 import { PokemonsResponse } from "interfaces/pokemon";
 import pokemonsMock from "./mock-data.json";
 
 jest.mock("../api/pokemon.api");
+
+const mockPush = jest.fn();
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
+
+const mockSetIsLoggedIn = jest.fn();
+jest.mock("../hooks/useLocalStorage", () => ({
+  useLocalStorage: () => [true, mockSetIsLoggedIn],
+}));
 
 jest.mock("lodash", () => ({
   debounce: jest.fn(() => console.log("debouncing")),
@@ -17,30 +27,27 @@ const mockGetPokemons = getPokemons as jest.MockedFunction<typeof getPokemons>;
 
 const pokemonsResponse = pokemonsMock as PokemonsResponse;
 
-describe("<Pokedex />", () => {
-  let queryClient: QueryClient;
+function renderWithQueryClient() {
+  return render(<MainPokedex />);
+}
 
+describe("app/<Pokedex />", () => {
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
-
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
-  function renderWithQueryClient() {
-    return render(
-      <QueryClientProvider client={queryClient}>
-        <PokemonProvider>
-          <Pokedex />
-        </PokemonProvider>
-      </QueryClientProvider>
+  it("should handle error state", async () => {
+    mockGetPokemons.mockRejectedValueOnce(() =>
+      Promise.reject(new Error("API error"))
     );
-  }
+    const { getByText } = renderWithQueryClient();
+    await new Promise((r) => setTimeout(r, 3000));
+    await waitFor(() => {
+      expect(
+        getByText("Error loading pokemons, refresh the page")
+      ).toBeInTheDocument();
+    });
+  });
 
   it("should render loading state initially", async () => {
     mockGetPokemons.mockResolvedValue({
@@ -61,18 +68,6 @@ describe("<Pokedex />", () => {
     await waitFor(() => {
       expect(getByText("Bulbasaur")).toBeInTheDocument();
       expect(getByText("Ivysaur")).toBeInTheDocument();
-    });
-  });
-
-  it("should handle error state", async () => {
-    mockGetPokemons.mockRejectedValue(new Error("API error"));
-
-    const { getByText } = renderWithQueryClient();
-
-    await waitFor(() => {
-      expect(
-        getByText("Error loading pokemons, refresh the page")
-      ).toBeInTheDocument();
     });
   });
 
@@ -114,5 +109,41 @@ describe("<Pokedex />", () => {
       expect(getByText("Abilities")).toBeInTheDocument();
       fireEvent.click(getByRole("button", { name: "×" }));
     });
+  });
+
+  it("should change limit to 50", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+    const { getAllByText, getAllByRole } = renderWithQueryClient();
+    await waitFor(() => {
+      const limitSelectEl = getAllByRole("combobox")[0] as HTMLSelectElement;
+      fireEvent.change(limitSelectEl, { target: { value: 50 } });
+      expect(getAllByText("Pokemons: 1 to 50 of 1304")[0]).toBeInTheDocument();
+    });
+  });
+
+  it("should click on next pagination button with initial limit of 25", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+    const { getAllByText } = renderWithQueryClient();
+    await waitFor(() => {
+      const nextButtonEl = getAllByText("Next→")[0] as HTMLButtonElement;
+      fireEvent.click(nextButtonEl);
+    });
+    expect(getAllByText("Pokemons: 26 to 50 of 1304")[0]).toBeInTheDocument();
+    expect(getAllByText("←Previous")[0]).toBeInTheDocument();
+  });
+
+  it("should click on next pagination button and then navigate back", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+    const { getAllByText } = renderWithQueryClient();
+    await waitFor(() => {
+      const nextButtonEl = getAllByText("Next→")[0] as HTMLButtonElement;
+      fireEvent.click(nextButtonEl);
+    });
+    expect(getAllByText("Pokemons: 26 to 50 of 1304")[0]).toBeInTheDocument();
+    const previousButtonEl = getAllByText("←Previous")[0] as HTMLButtonElement;
+    await waitFor(() => {
+      fireEvent.click(previousButtonEl);
+    });
+    expect(getAllByText("Pokemons: 1 to 25 of 1304")[0]).toBeInTheDocument();
   });
 });

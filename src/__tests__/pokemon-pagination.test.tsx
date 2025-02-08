@@ -16,6 +16,7 @@ describe("<PokemonPagination />", () => {
     onNext: mockOnNext,
     searchQueryLength: 0,
     totalPokemons: 1000,
+    onLimitChange: jest.fn(),
   };
 
   it("should render initial page with 1000 pokemons", () => {
