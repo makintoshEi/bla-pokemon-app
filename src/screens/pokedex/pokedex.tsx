@@ -94,7 +94,7 @@ export const Pokedex = () => {
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse?.count || 0}
+        totalPokemons={pokemonsResponse!.count}
         onLimitChange={handleLimitChange}
       />
       <PokemonList pokemons={filteredPokemons!} />
@@ -104,7 +104,7 @@ export const Pokedex = () => {
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse?.count || 0}
+        totalPokemons={pokemonsResponse!.count}
         onLimitChange={handleLimitChange}
       />
     </Layout>

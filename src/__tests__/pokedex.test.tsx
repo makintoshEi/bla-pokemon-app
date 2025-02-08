@@ -110,4 +110,40 @@ describe("app/<Pokedex />", () => {
       fireEvent.click(getByRole("button", { name: "×" }));
     });
   });
+
+  it("should change limit to 50", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+    const { getAllByText, getAllByRole } = renderWithQueryClient();
+    await waitFor(() => {
+      const limitSelectEl = getAllByRole("combobox")[0] as HTMLSelectElement;
+      fireEvent.change(limitSelectEl, { target: { value: 50 } });
+      expect(getAllByText("Pokemons: 1 to 50 of 1304")[0]).toBeInTheDocument();
+    });
+  });
+
+  it("should click on next pagination button with initial limit of 25", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+    const { getAllByText } = renderWithQueryClient();
+    await waitFor(() => {
+      const nextButtonEl = getAllByText("Next→")[0] as HTMLButtonElement;
+      fireEvent.click(nextButtonEl);
+    });
+    expect(getAllByText("Pokemons: 26 to 50 of 1304")[0]).toBeInTheDocument();
+    expect(getAllByText("←Previous")[0]).toBeInTheDocument();
+  });
+
+  it("should click on next pagination button and then navigate back", async () => {
+    mockGetPokemons.mockResolvedValue(pokemonsResponse);
+    const { getAllByText } = renderWithQueryClient();
+    await waitFor(() => {
+      const nextButtonEl = getAllByText("Next→")[0] as HTMLButtonElement;
+      fireEvent.click(nextButtonEl);
+    });
+    expect(getAllByText("Pokemons: 26 to 50 of 1304")[0]).toBeInTheDocument();
+    const previousButtonEl = getAllByText("←Previous")[0] as HTMLButtonElement;
+    await waitFor(() => {
+      fireEvent.click(previousButtonEl);
+    });
+    expect(getAllByText("Pokemons: 1 to 25 of 1304")[0]).toBeInTheDocument();
+  });
 });
