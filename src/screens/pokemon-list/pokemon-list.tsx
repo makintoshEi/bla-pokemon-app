@@ -8,7 +8,7 @@ interface PokemonListProps {
 }
 
 const PokemonList = ({ pokemons }: PokemonListProps) => (
-  <div className="pokemon-list">
+  <ul className="pokemon-list">
     {pokemons.map((pokemon, index, array) => (
       <PokemonCard
         _index={index + 1}
@@ -17,7 +17,7 @@ const PokemonList = ({ pokemons }: PokemonListProps) => (
         totalPokemons={array.length}
       />
     ))}
-  </div>
+  </ul>
 );
 
 export default memo(PokemonList);

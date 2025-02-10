@@ -34,7 +34,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
   } as React.CSSProperties;
 
   return (
-    <div
+    <li
       data-testid={pokemon.name}
       className="pokemon-card"
       onClick={handleSelectPokemon}
@@ -61,7 +61,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
           totalPokemons={totalPokemons}
         />
       </div>
-    </div>
+    </li>
   );
 };
 
