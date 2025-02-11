@@ -7,8 +7,14 @@ describe("Select Component", () => {
   const value = 50;
   const handleChange = jest.fn();
 
+  function renderSelect() {
+    return render(
+      <Select onChange={handleChange} options={options} value={value} />
+    );
+  }
+
   it("renders select component with options", () => {
-    render(<Select onChange={handleChange} options={options} value={value} />);
+    renderSelect();
     options.forEach((option) => {
       expect(
         screen.getByRole("option", { name: option.toString() })
@@ -17,14 +23,14 @@ describe("Select Component", () => {
   });
 
   it("calls onChange handler when an option is selected", () => {
-    render(<Select onChange={handleChange} options={options} value={value} />);
+    renderSelect();
     const selectElement = screen.getByRole("combobox");
     fireEvent.change(selectElement, { target: { value: 100 } });
     expect(handleChange).toHaveBeenCalledWith(100);
   });
 
   it("displays the correct selected value", () => {
-    render(<Select onChange={handleChange} options={options} value={value} />);
+    renderSelect();
     const selectElement = screen.getByRole("combobox") as HTMLSelectElement;
     expect(selectElement.value).toBe(value.toString());
   });
