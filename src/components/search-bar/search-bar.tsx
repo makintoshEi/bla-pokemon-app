@@ -20,7 +20,7 @@ export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
     <div className="search">
       <input
         ref={currentRef}
-        tabIndex={-1}
+        tabIndex={0}
         type="text"
         placeholder={placeholder}
         value={search}

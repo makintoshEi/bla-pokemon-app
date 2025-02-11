@@ -20,7 +20,7 @@ export const Pokedex = () => {
 
   const {
     data: pokemonsResponse,
-    isLoading,
+    isFetching,
     error,
     refetch,
   } = usePokemonList(offset, limit);
@@ -57,14 +57,6 @@ export const Pokedex = () => {
     refetch();
   }, [limit]);
 
-  if (isLoading) {
-    return (
-      <Layout>
-        <PokemonSpinner size={92} />
-      </Layout>
-    );
-  }
-
   if (error) {
     return (
       <Layout>
@@ -94,19 +86,20 @@ export const Pokedex = () => {
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse!.count}
+        totalPokemons={pokemonsResponse?.count}
         onLimitChange={handleLimitChange}
       />
-      <PokemonList pokemons={filteredPokemons!} />
+      <PokemonList pokemons={filteredPokemons} />
       <PokemonPagination
         limit={limit}
         offset={offset}
         onBack={handleBackNavigation}
         onNext={handleNextPagination}
         searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse!.count}
+        totalPokemons={pokemonsResponse?.count}
         onLimitChange={handleLimitChange}
       />
+      {isFetching && <PokemonSpinner size={92} />}
     </Layout>
   );
 };

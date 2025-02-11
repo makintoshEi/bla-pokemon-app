@@ -4,12 +4,12 @@ import { Pokemon } from "interfaces/pokemon";
 import PokemonCard from "screens/pokemon-card/pokemon-card";
 
 interface PokemonListProps {
-  pokemons: Pokemon[];
+  pokemons: Pokemon[] | undefined;
 }
 
 const PokemonList = ({ pokemons }: PokemonListProps) => (
   <ul className="pokemon-list">
-    {pokemons.map((pokemon, index, array) => (
+    {pokemons?.map((pokemon, index, array) => (
       <PokemonCard
         _index={index + 1}
         key={pokemon.name}

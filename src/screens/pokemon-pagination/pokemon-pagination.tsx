@@ -9,7 +9,7 @@ export interface PokemonPaginationProps {
   onBack: () => void;
   onNext: () => void;
   searchQueryLength: number;
-  totalPokemons: number;
+  totalPokemons: number | undefined;
   onLimitChange: (newLimit: number) => void;
 }
 
@@ -19,7 +19,7 @@ export const PokemonPagination = ({
   onBack,
   onNext,
   searchQueryLength,
-  totalPokemons,
+  totalPokemons = 0,
   onLimitChange,
 }: PokemonPaginationProps) => {
   const paginationDescription = useMemo(
