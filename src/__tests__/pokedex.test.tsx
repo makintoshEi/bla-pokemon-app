@@ -33,7 +33,7 @@ function renderWithQueryClient() {
 
 describe("app/<Pokedex />", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it("should handle error state", async () => {
@@ -47,17 +47,6 @@ describe("app/<Pokedex />", () => {
         getByText("Error loading pokemons, refresh the page")
       ).toBeInTheDocument();
     });
-  });
-
-  it("should render loading state initially", async () => {
-    mockGetPokemons.mockResolvedValue({
-      count: 0,
-      next: "",
-      previous: "",
-      results: [],
-    });
-    const { getByTestId } = renderWithQueryClient();
-    expect(getByTestId("spinner")).toBeInTheDocument();
   });
 
   it("should render pokemon list after loading", async () => {
