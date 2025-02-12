@@ -20,9 +20,34 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Requirements
+
+Login screen:
+
+The creds consist of a username/password form. You should validate the user creds
+locally. (admin as username and admin as password, anything different should be
+considered as incorrect creds). Shows all the validation that you think makes sense.
+
+   ● The user should remain logged against a storage instance that fits your
+   preference (Local db, Local storage, cookies), so if the user tries to log in already
+   logged, it should be redirected to the main page, and if it is not logged and it tries
+   to go to the main page it should be redirected to the login page.
+
+Main page:
+
+   ● The home screen will have a search bar with a list of Pokemon. You’ll have to use
+   this API for it: https://pokeapi.co/. The API is paginated so you should create a
+   solution for it.
+   ● Each Pokemon should be shown with its photo and name.
+
+Detail view:
+
+   ● If the user clicks on a Pokemon from the list, a modal should be shown with
+   detailed information about the Pokemon (Abilities, moves, and forms).
+
 ## User story
 
-Pokemon app, enables end-users to search for pokemons through an easy to use interface or screen readers. The application is designed to be fully responsive, ensuring it works seamlessly on various devices and screen sizes providing an optimal user experience on mobile, tablet, and desktop devices.
+Pokemon app, enables end-users to search for pokemons through an easy to use interface with support for screen readers. The application is designed to be fully responsive, ensuring it works seamlessly on various devices and screen sizes providing an optimal user experience on mobile, tablet, and desktop devices.
 
 The solution is shipped 🚀, you can check it out here: https://bla-pokemon-app.vercel.app/
 
@@ -61,8 +86,12 @@ On the search bar, the end user can search for any component in the first 25 pok
 1. Component-Based Architecture
    Uses React components with a clear separation of concerns
    Implements atomic design methodology with components organized by complexity:
-   Atoms: `<Chip />`, `<Message />`, `<Modal />`, `<OptimizedImage />`, `<SearchBar />`, `<Select />`, `<Spinner />`
+   
+   Atoms: `<Chip />`, `<Message />`, `<Modal />`, `<OptimizedImage />`, `<SearchBar />`, `<Select />`, `<Spinner />`.
+   
    Screens: `<Login />`, `<Pokedex />`
+
+   You can see the component graph here: https://app.eraser.io/workspace/MTftQNJdtGdPNswh9P53
 
 2. Client-Side Routing
    Next.js App Router for page routing and navigation
