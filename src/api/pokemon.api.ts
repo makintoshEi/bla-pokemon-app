@@ -7,7 +7,7 @@ const getPokemons = async (offset: number, limit: number): Promise<PokemonsRespo
     }
     const data = await response.json();
     const pokemonWithDetails: Pokemon[] = await Promise.all(
-        data.results.map(async (pokemon: Pokemon) => getPokemon(pokemon)),
+        data.results.map((pokemon: Pokemon) => getPokemon(pokemon)),
     )
 
     return {
