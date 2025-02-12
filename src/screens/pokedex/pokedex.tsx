@@ -40,16 +40,23 @@ export const Pokedex = () => {
   );
 
   const handleBackNavigation = () => {
-    setOffset((prev) => prev - limit);
+    setOffset((prev) => {
+      const newOffset = prev - limit;
+      return newOffset < 0 ? 0 : newOffset;
+    });
   };
 
   const handleNextPagination = () => {
-    setOffset((prev) => prev + limit);
+    setOffset((prev) => {
+      const newOffset = prev + limit;
+      return newOffset > pokemonsResponse!.count
+        ? pokemonsResponse!.count
+        : newOffset;
+    });
   };
 
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit);
-    setOffset(0);
   };
 
   if (error) {
