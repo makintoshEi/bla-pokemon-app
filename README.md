@@ -24,26 +24,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Login screen:
 
-The creds consist of a username/password form. You should validate the user creds
+● The creds consist of a username/password form. You should validate the user creds
 locally. (admin as username and admin as password, anything different should be
 considered as incorrect creds). Shows all the validation that you think makes sense.
 
-   ● The user should remain logged against a storage instance that fits your
-   preference (Local db, Local storage, cookies), so if the user tries to log in already
-   logged, it should be redirected to the main page, and if it is not logged and it tries
-   to go to the main page it should be redirected to the login page.
+● The user should remain logged against a storage instance that fits your
+preference (Local db, Local storage, cookies), so if the user tries to log in already
+logged, it should be redirected to the main page, and if it is not logged and it tries
+to go to the main page it should be redirected to the login page.
 
 Main page:
 
-   ● The home screen will have a search bar with a list of Pokemon. You’ll have to use
-   this API for it: https://pokeapi.co/. The API is paginated so you should create a
-   solution for it.
-   ● Each Pokemon should be shown with its photo and name.
+● The home screen will have a search bar with a list of Pokemon. You’ll have to use
+this API for it: https://pokeapi.co/. The API is paginated so you should create a
+solution for it.
+● Each Pokemon should be shown with its photo and name.
 
 Detail view:
 
-   ● If the user clicks on a Pokemon from the list, a modal should be shown with
-   detailed information about the Pokemon (Abilities, moves, and forms).
+● If the user clicks on a Pokemon from the list, a modal should be shown with
+detailed information about the Pokemon (Abilities, moves, and forms).
 
 ## User story
 
@@ -77,7 +77,7 @@ On the search bar, the end user can search for any component in the first 25 pok
 
 - Tanstack/react-query v5.64.1: API State Management that comes with easy to implement abstractions like caching API responses for a given time, enabling better web app performance for large datasets.
 
-- Lodash v.4.17.21: library that exposes javascript APIs that accelerate development process. This project uses `debounce` method, to execute each search after 300 ms, avoiding unnecessary re-renders.
+- Lodash v.4.17.21: library that exposes Javascript APIs that accelerate development process. This project uses `debounce` method that delays any search for x time. matching common typing needs (most people type 200 - 300 characters/min) and avoiding unnecessary re-renders.
 
 ## Design Choices
 
@@ -86,10 +86,10 @@ On the search bar, the end user can search for any component in the first 25 pok
 1. Component-Based Architecture
    Uses React components with a clear separation of concerns
    Implements atomic design methodology with components organized by complexity:
-   
+
    Atoms: `<Chip />`, `<Message />`, `<Modal />`, `<OptimizedImage />`, `<SearchBar />`, `<Select />`, `<Spinner />`.
-   
-   Screens: `<Login />`, `<Pokedex />`
+
+   Screens: `<Login />, <Logout />, <Pokedex />, <PokemonModal />, <PokemonList />, <PokemonCard />, <PokemonSearchBar />, <PokemonPagination />`
 
    You can see the component graph here: https://app.eraser.io/workspace/MTftQNJdtGdPNswh9P53
 
