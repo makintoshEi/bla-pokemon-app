@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
 import { debounce } from "lodash";
@@ -22,7 +22,6 @@ export const Pokedex = () => {
     data: pokemonsResponse,
     isFetching,
     error,
-    refetch,
   } = usePokemonList(offset, limit);
 
   const filteredPokemons = useMemo(
@@ -52,10 +51,6 @@ export const Pokedex = () => {
     setLimit(newLimit);
     setOffset(0);
   };
-
-  useEffect(() => {
-    refetch();
-  }, [limit]);
 
   if (error) {
     return (
