@@ -79,7 +79,10 @@ export const Pokedex = () => {
     );
   }
 
-  const showPagination = searchQuery.length === 0;
+  const showPagination =
+    searchQuery.length === 0 &&
+    pokemonsResponse &&
+    pokemonsResponse.results.length > 0;
 
   const paginationProps = {
     limit,
@@ -90,12 +93,15 @@ export const Pokedex = () => {
     onLimitChange: handleLimitChange,
   };
 
+  const PaginationSection = () =>
+    showPagination && <PokemonPagination {...paginationProps} />;
+
   return (
     <Layout>
       <PokemonSearchBar onSearch={handleSearch} />
-      {showPagination && <PokemonPagination {...paginationProps} />}
+      <PaginationSection />
       <PokemonList pokemons={filteredPokemons} />
-      {showPagination && <PokemonPagination {...paginationProps} />}
+      <PaginationSection />
       {isFetching && <PokemonSpinner size={92} />}
     </Layout>
   );
