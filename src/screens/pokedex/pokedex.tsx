@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Layout } from "./pokedex.layout";
 import PokemonList from "screens/pokemon-list/pokemon-list";
 import { debounce } from "lodash";
@@ -24,20 +24,20 @@ export const Pokedex = () => {
     error,
   } = usePokemonList(offset, limit);
 
+  const lowerSearchQuery = useMemo(
+    () => searchQuery.toLowerCase(),
+    [searchQuery]
+  );
+
   const filteredPokemons = useMemo(
     () =>
       pokemonsResponse?.results.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+        pokemon.name.toLowerCase().includes(lowerSearchQuery)
       ),
-    [pokemonsResponse, searchQuery]
+    [pokemonsResponse, lowerSearchQuery]
   );
 
-  const handleSearch = useCallback(
-    (query: string) => {
-      debouncedSearch(query);
-    },
-    [debouncedSearch]
-  );
+  const handleSearch = (query: string) => debouncedSearch(query);
 
   const handleBackNavigation = () => {
     setOffset((prev) => {
@@ -79,28 +79,23 @@ export const Pokedex = () => {
     );
   }
 
+  const showPagination = searchQuery.length === 0;
+
+  const paginationProps = {
+    limit,
+    offset,
+    onBack: handleBackNavigation,
+    onNext: handleNextPagination,
+    totalPokemons: pokemonsResponse?.count,
+    onLimitChange: handleLimitChange,
+  };
+
   return (
     <Layout>
       <PokemonSearchBar onSearch={handleSearch} />
-      <PokemonPagination
-        limit={limit}
-        offset={offset}
-        onBack={handleBackNavigation}
-        onNext={handleNextPagination}
-        searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse?.count}
-        onLimitChange={handleLimitChange}
-      />
+      {showPagination && <PokemonPagination {...paginationProps} />}
       <PokemonList pokemons={filteredPokemons} />
-      <PokemonPagination
-        limit={limit}
-        offset={offset}
-        onBack={handleBackNavigation}
-        onNext={handleNextPagination}
-        searchQueryLength={searchQuery.length}
-        totalPokemons={pokemonsResponse?.count}
-        onLimitChange={handleLimitChange}
-      />
+      {showPagination && <PokemonPagination {...paginationProps} />}
       {isFetching && <PokemonSpinner size={92} />}
     </Layout>
   );

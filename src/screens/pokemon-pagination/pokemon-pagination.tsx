@@ -8,7 +8,6 @@ export interface PokemonPaginationProps {
   offset: number;
   onBack: () => void;
   onNext: () => void;
-  searchQueryLength: number;
   totalPokemons: number | undefined;
   onLimitChange: (newLimit: number) => void;
 }
@@ -18,7 +17,6 @@ export const PokemonPagination = ({
   offset,
   onBack,
   onNext,
-  searchQueryLength,
   totalPokemons = 0,
   onLimitChange,
 }: PokemonPaginationProps) => {
@@ -33,11 +31,6 @@ export const PokemonPagination = ({
       }`,
     [limit, offset, totalPokemons]
   );
-
-  if (searchQueryLength > 0) {
-    return null;
-  }
-
   return (
     <div className="pokemon-pagination" aria-atomic="true">
       {offset > 0 ? (
