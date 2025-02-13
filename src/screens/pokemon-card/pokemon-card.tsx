@@ -53,13 +53,12 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       onClick={handleSelectPokemon}
       onKeyUp={handleSelectPokemon}
       role="listitem"
-      aria-label={`This is ${pokemon.name} pokemon`}
-      aria-atomic="true"
+      aria-label={`This is ${pokemon.name}`}
       tabIndex={0}
     >
       <div style={style} className="pokemon-card__image-container">
         <PokemonImage
-          ariaLabel={`Image of ${formattedName} pokemon.`}
+          ariaLabel={`${formattedName}`}
           src={pokemon.details!.sprites.other["official-artwork"].front_default}
           alt={formattedName}
           width={100}
