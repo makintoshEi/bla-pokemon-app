@@ -114,22 +114,22 @@ describe("app/<Pokedex />", () => {
     mockGetPokemons.mockResolvedValue(pokemonsResponse);
     const { getAllByText } = renderWithQueryClient();
     await waitFor(() => {
-      const nextButtonEl = getAllByText("Next→")[0] as HTMLButtonElement;
+      const nextButtonEl = getAllByText("→")[0] as HTMLButtonElement;
       fireEvent.click(nextButtonEl);
     });
     expect(getAllByText("Pokemons: 26 to 50 of 1304")[0]).toBeInTheDocument();
-    expect(getAllByText("←Previous")[0]).toBeInTheDocument();
+    expect(getAllByText("←")[0]).toBeInTheDocument();
   });
 
   it("should click on next pagination button and then navigate back", async () => {
     mockGetPokemons.mockResolvedValue(pokemonsResponse);
     const { getAllByText } = renderWithQueryClient();
     await waitFor(() => {
-      const nextButtonEl = getAllByText("Next→")[0] as HTMLButtonElement;
+      const nextButtonEl = getAllByText("→")[0] as HTMLButtonElement;
       fireEvent.click(nextButtonEl);
     });
     expect(getAllByText("Pokemons: 26 to 50 of 1304")[0]).toBeInTheDocument();
-    const previousButtonEl = getAllByText("←Previous")[0] as HTMLButtonElement;
+    const previousButtonEl = getAllByText("←")[0] as HTMLButtonElement;
     await waitFor(() => {
       fireEvent.click(previousButtonEl);
     });

@@ -32,7 +32,6 @@ const OptimizedImage = ({
 
   return (
     <img
-      tabIndex={0}
       aria-label={ariaLabel}
       src={imageSrc}
       alt={alt}

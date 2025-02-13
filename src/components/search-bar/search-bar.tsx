@@ -26,7 +26,6 @@ export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
         value={search}
         onChange={(e) => handleSearch(e.target.value)}
         className="search-input"
-        aria-label={placeholder}
       />
     </div>
   );

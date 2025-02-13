@@ -14,18 +14,17 @@ describe("<PokemonPagination />", () => {
     offset: 0,
     onBack: mockOnBack,
     onNext: mockOnNext,
-    searchQueryLength: 0,
     totalPokemons: 1000,
     onLimitChange: jest.fn(),
   };
 
   it("should render initial page with 1000 pokemons", () => {
     const { getByText } = render(<PokemonPagination {...props} />);
-    expect(getByText("Next→")).toBeInTheDocument();
+    expect(getByText("→")).toBeInTheDocument();
     expect(
       getByText(`Pokemons: 1 to ${props.limit} of 1000`)
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Next→" }));
+    fireEvent.click(screen.getByText("→"));
     expect(mockOnNext).toHaveBeenCalled();
   });
 
@@ -33,13 +32,13 @@ describe("<PokemonPagination />", () => {
     const localProps = { ...props };
     localProps.offset = 200;
     const { getByText } = render(<PokemonPagination {...localProps} />);
-    expect(getByText("←Previous")).toBeInTheDocument();
+    expect(getByText("←")).toBeInTheDocument();
     expect(
       getByText(
         `Pokemons: 201 to ${localProps.offset + localProps.limit} of 1000`
       )
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "←Previous" }));
+    fireEvent.click(screen.getByText("←"));
     expect(mockOnBack).toHaveBeenCalled();
   });
 
@@ -47,7 +46,7 @@ describe("<PokemonPagination />", () => {
     const localProps = { ...props };
     localProps.offset = 1000;
     const { getByText } = render(<PokemonPagination {...localProps} />);
-    expect(getByText("←Previous")).toBeInTheDocument();
+    expect(getByText("←")).toBeInTheDocument();
     expect(
       getByText(
         `Pokemons: ${localProps.offset + 1} to ${localProps.totalPokemons}`

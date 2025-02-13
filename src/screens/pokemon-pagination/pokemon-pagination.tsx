@@ -32,20 +32,23 @@ export const PokemonPagination = ({
     [limit, offset, totalPokemons]
   );
   return (
-    <div className="pokemon-pagination" aria-atomic="true">
+    <div className="pokemon-pagination">
       {offset > 0 ? (
-        <a tabIndex={0} role="button" onClick={() => onBack()}>
-          &larr;Previous
-        </a>
+        <button
+          aria-label="Previous"
+          type="button"
+          tabIndex={0}
+          onClick={() => onBack()}
+        >
+          &larr;
+        </button>
       ) : null}
       {totalPokemons - offset >= limit ? (
-        <a tabIndex={0} role="button" onClick={() => onNext()}>
-          Next&rarr;
-        </a>
+        <button aria-label="Next" tabIndex={0} onClick={() => onNext()}>
+          &rarr;
+        </button>
       ) : null}
-      <p tabIndex={0} aria-live="polite">
-        {paginationDescription}
-      </p>
+      <p aria-live="polite">{paginationDescription}</p>
       <PaginationSelect<number>
         onChange={onLimitChange}
         options={LIMITS}

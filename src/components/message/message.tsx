@@ -9,7 +9,7 @@ interface MessageProps {
 
 export const Message = ({ message, variant = "info" }: MessageProps) => {
   return (
-    <div className={`message ${variant}`}>
+    <div aria-live="polite" className={`message ${variant}`}>
       <span className="message__icon">{variant === "error" ? "⚠️" : "ℹ️"}</span>
       <p className="message__text">{message}</p>
     </div>

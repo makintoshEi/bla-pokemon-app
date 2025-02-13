@@ -1,4 +1,6 @@
 import "./modal.css";
+import { useFocus } from "hooks/useFocus";
+import { useEffect } from "react";
 
 interface ModalProps {
   bgColor: string;
@@ -17,9 +19,27 @@ const Modal = ({
   children,
   footer,
 }: ModalProps) => {
+  const { currentRef } = useFocus<HTMLDivElement>();
+
+  useEffect(() => {
+    if (isOpen) {
+      currentRef.current?.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayClick = (
+    e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+  ) => {
+    if (e.type === "keydown") {
+      const keyboardEvt = e as React.KeyboardEvent<HTMLDivElement>;
+      if (keyboardEvt.key === "Escape") {
+        onClose();
+      }
+      return;
+    }
+
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -30,7 +50,14 @@ const Modal = ({
   } as React.CSSProperties;
 
   return (
-    <div style={styles} className="modal" onClick={handleOverlayClick}>
+    <div
+      ref={currentRef}
+      style={styles}
+      className="modal"
+      onClick={handleOverlayClick}
+      onKeyDown={handleOverlayClick}
+      tabIndex={0}
+    >
       <div className="modal__content">
         <button className="modal__close-button" onClick={onClose}>
           &times;
