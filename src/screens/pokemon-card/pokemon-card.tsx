@@ -20,14 +20,27 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     [pokemon.name]
   );
 
-  const handleSelectPokemon = useCallback(() => {
+  const onSelectPokemon = useCallback(() => {
     setSelectedPokemon({
       name: formattedName,
       url: "",
       details: pokemon.details,
     });
     setIsModalOpen(true);
-  }, [formattedName, pokemon.details, setIsModalOpen, setSelectedPokemon]);
+  }, [formattedName, pokemon.details, setSelectedPokemon, setIsModalOpen]);
+
+  const handleSelectPokemon = (
+    e: React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>
+  ) => {
+    if (e.type === "keyup") {
+      const keyboardEvt = e as React.KeyboardEvent<HTMLLIElement>;
+      if (keyboardEvt.key === "Enter") {
+        onSelectPokemon();
+      }
+      return;
+    }
+    onSelectPokemon();
+  };
 
   const style = {
     "--pokemon-color": POKEMON_TYPE[pokemon.details!.types[0]?.type.name],
@@ -38,7 +51,8 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       data-testid={pokemon.name}
       className="pokemon-card"
       onClick={handleSelectPokemon}
-      role="button"
+      onKeyUp={handleSelectPokemon}
+      role="listitem"
       aria-label={`This is ${pokemon.name} pokemon`}
       aria-atomic="true"
       tabIndex={0}
