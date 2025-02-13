@@ -32,7 +32,7 @@ export const PokemonPagination = ({
     [limit, offset, totalPokemons]
   );
   return (
-    <div className="pokemon-pagination" aria-atomic="true">
+    <div className="pokemon-pagination">
       {offset > 0 ? (
         <button
           aria-label="Previous"
