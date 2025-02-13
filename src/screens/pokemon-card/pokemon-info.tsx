@@ -38,10 +38,7 @@ export const PokemonInfo = ({
     <>
       <span>#{formattedID}</span>
       <div className="pokemon-card__info-type">
-        <h5
-          tabIndex={0}
-          aria-label={`${pokemonName}. Pokemon ${idx} of ${totalPokemons}.`}
-        >
+        <h5 aria-label={`${pokemonName}. Pokemon ${idx} of ${totalPokemons}.`}>
           {pokemonName}
         </h5>
         <Chip styles={style}>{pokemonDetails!.types[0]?.type.name}</Chip>
