@@ -56,7 +56,6 @@ const Modal = ({
       className="modal"
       onClick={handleOverlayClick}
       onKeyDown={handleOverlayClick}
-      role="button"
       tabIndex={0}
     >
       <div className="modal__content">

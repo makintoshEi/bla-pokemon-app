@@ -6,7 +6,7 @@ body {
 }
 
 * {
-  font-family: 'Geist Mono', Verdana;
+  font-family: 'Geist Mono', Verdana, Geneva, Tahoma, sans-serif;
 }
 
 input {
