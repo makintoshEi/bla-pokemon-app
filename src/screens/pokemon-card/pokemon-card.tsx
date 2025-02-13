@@ -42,8 +42,10 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
     onSelectPokemon();
   };
 
+  const pokemonType = useMemo(() => pokemon.details!.types[0]?.type.name, [pokemon])
+
   const style = {
-    "--pokemon-color": POKEMON_TYPE[pokemon.details!.types[0]?.type.name],
+    "--pokemon-color": POKEMON_TYPE[pokemonType],
   } as React.CSSProperties;
 
   return (
@@ -53,7 +55,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       onClick={handleSelectPokemon}
       onKeyUp={handleSelectPokemon}
       role="button"
-      aria-label={`${pokemon.name}`}
+      aria-label={`${pokemon.name}. type: ${pokemonType}`}
       tabIndex={0}
     >
       <div style={style} className="pokemon-card__image-container">
