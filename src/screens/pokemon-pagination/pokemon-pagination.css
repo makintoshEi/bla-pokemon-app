@@ -28,7 +28,7 @@
     }
 
     button:hover {
-        background-color: #FFE4E1;
-        ;
+        background-color: #E3F2FD;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 }
