@@ -52,7 +52,7 @@ const PokemonCard = ({ _index, pokemon, totalPokemons }: PokemonCardProps) => {
       className="pokemon-card"
       onClick={handleSelectPokemon}
       onKeyUp={handleSelectPokemon}
-      role="listitem"
+      role="button"
       aria-label={`This is ${pokemon.name}`}
       tabIndex={0}
     >
