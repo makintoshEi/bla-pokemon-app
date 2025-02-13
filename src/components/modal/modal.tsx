@@ -1,4 +1,6 @@
 import "./modal.css";
+import { useFocus } from "hooks/useFocus";
+import { useEffect } from "react";
 
 interface ModalProps {
   bgColor: string;
@@ -17,6 +19,14 @@ const Modal = ({
   children,
   footer,
 }: ModalProps) => {
+  const { currentRef } = useFocus<HTMLDivElement>();
+
+  useEffect(() => {
+    if (isOpen) {
+      currentRef.current?.focus();
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleOverlayClick = (
@@ -41,6 +51,7 @@ const Modal = ({
 
   return (
     <div
+      ref={currentRef}
       style={styles}
       className="modal"
       onClick={handleOverlayClick}
