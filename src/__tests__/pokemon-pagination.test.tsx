@@ -24,7 +24,7 @@ describe("<PokemonPagination />", () => {
     expect(
       getByText(`Pokemons: 1 to ${props.limit} of 1000`)
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "→" }));
+    fireEvent.click(screen.getByText("→"));
     expect(mockOnNext).toHaveBeenCalled();
   });
 
@@ -38,7 +38,7 @@ describe("<PokemonPagination />", () => {
         `Pokemons: 201 to ${localProps.offset + localProps.limit} of 1000`
       )
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "←" }));
+    fireEvent.click(screen.getByText("←"));
     expect(mockOnBack).toHaveBeenCalled();
   });
 
